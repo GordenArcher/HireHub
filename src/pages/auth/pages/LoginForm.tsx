@@ -1,10 +1,23 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
 import Logo from "../../../components/ui/Logo";
 import AuthRight from "../../../components/ui/AuthRightUI";
+import { useCallback, useState } from "react";
+import LoginAPI from "../containers/LoginAPI";
 
 
 const LoginForm = () => {
+
+    const [formaData, setFormData] = useState({
+        email: "",
+        password: ""
+    })
+
+    const { handleLogin, isLoading } = LoginAPI()
+
+    const Login = useCallback( async () => {
+        await handleLogin(formaData)
+    }, [formaData, handleLogin])
 
     return (
         <div className="h-full w-full">
@@ -29,7 +42,9 @@ const LoginForm = () => {
                                 <input
                                     type="email"
                                     placeholder="Email"
-                                    className="w-full px-4 py-2 border border-orange-200 rounded-lg focus:ring-2 transition duration-200 focus:ring-orange-300 focus:outline-none outline-none"
+                                    onChange={(e) => setFormData((prevData) => ({...prevData, email: e.target.value}))}
+                                    value={formaData.email}
+                                    className="w-full px-4 py-3 border border-orange-200 rounded-lg focus:ring-2 transition duration-200 focus:ring-orange-300 focus:outline-none outline-none"
                                     autoComplete="off"
                                     aria-description="email field"
                                 />
@@ -39,7 +54,9 @@ const LoginForm = () => {
                                 <input
                                     type="password"
                                     placeholder="Password"
-                                    className="w-full px-4 py-2 border  border-orange-200 rounded-lg focus:ring-2 transition duration-200 focus:ring-orange-300 focus:outline-none outline-none"
+                                    onChange={(e) => setFormData((prevData) => ({...prevData, password: e.target.value}))}
+                                    value={formaData.password}
+                                    className="w-full px-4 py-3 border  border-orange-200 rounded-lg focus:ring-2 transition duration-200 focus:ring-orange-300 focus:outline-none outline-none"
                                     autoComplete="off"
                                     aria-description="password field"
                                 />
@@ -64,12 +81,24 @@ const LoginForm = () => {
 
                             <div className="pt-6">
                                 <button
+                                    onClick={Login}
+                                    disabled={isLoading}
                                     type="submit"
-                                    className="w-full cursor-pointer bg-orange-500 text-white py-2 transition duration-100 ease-in rounded-lg font-medium hover:bg-orange-600"
+                                    className="w-full disabled:cursor-not-allowed cursor-pointer bg-orange-500 text-white py-3 transition duration-100 ease-in rounded-lg font-medium hover:bg-orange-600"
                                 >
                                     <div className="w-full flex items-center justify-center gap-1.5">
-                                        <span>Login</span>
-                                        <ArrowRight size={20} />
+                                        {isLoading ? (
+                                            <>
+                                                <Loader size={20} className="animate-spin" />
+                                                <span>Please wait...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span>Login</span>
+                                                <ArrowRight size={20} />
+                                            </>
+                                        )}
+                                        
                                     </div>
                                 </button>
                             </div>
