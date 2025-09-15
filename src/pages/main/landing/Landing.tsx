@@ -1,11 +1,15 @@
-import { MapPin, Search } from 'lucide-react'
+import { ChevronRight, MapPin, Search } from 'lucide-react'
 import HomeImage from '../../../assets/images/home.svg'
 import { HeroData, MostPopularVaca } from '../../../data/landing/landing'
 import HeroCard from '../../../components/ui/HeroCard'
 import { Link } from 'react-router-dom'
 import HowItWorks from '../../../components/Howitworkd'
-import FeaturedJob from '../../../components/FeaturedJob'
+import FeaturedJob from '../../../components/Featured'
 import Testimonial from '../../../components/Testimonial'
+import PopularCategory from '../../../components/PopularCategory'
+import TopCompanies from '../../../components/TopCompanies'
+import CTO from '../../../components/CTO'
+
 const Landing = () => {
     return (
         <div className="max-md:p-3 relative w-full h-full">
@@ -80,8 +84,10 @@ const Landing = () => {
 
 
             <div className='py-15 relative space-y-3 mb-12'>
-                <div className='leading-normal pb-6'>
-                    <h2 className='text-start text-2xl'>Most Popular Vacancies</h2>
+                <div className="text-start mb-5">
+                    <h2 className="text-4xl max-md:text-xl font-bold text-gray-800 mb-4">
+                        most Popular vacancies
+                    </h2>
                 </div>
 
                 <div className='space-y-3 relative pt-10'>
@@ -116,12 +122,30 @@ const Landing = () => {
                     </section>
                 </div>
 
-                <HowItWorks />
-
-                <FeaturedJob />
-
-                <Testimonial />
             </div>
+
+            <HowItWorks />
+
+            <PopularCategory />
+
+            <section className="space-y-12">
+
+                    <div className="flex justify-between items-center mb-8">
+                        <h2 className="text-3xl font-bold text-gray-900">Featured job</h2>
+                        <Link to={"/find-job"} className="flex items-center text-orange-500 hover:text-orange-600 font-medium">
+                            View All <ChevronRight size={20} className="ml-1" />
+                        </Link>
+                    </div>
+                <FeaturedJob />
+            </section>
+
+            
+
+            <TopCompanies />
+
+            <Testimonial />
+
+            <CTO />
         </div>
     )
 }

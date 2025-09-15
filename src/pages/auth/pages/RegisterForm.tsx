@@ -1,10 +1,71 @@
 import { Link } from "react-router-dom"
 import AuthRight from "../../../components/ui/AuthRightUI"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Loader } from "lucide-react"
 import Logo from "../../../components/ui/Logo"
 import Radio from "../../../components/ui/AccountSelector"
+import React, { useState } from "react"
+import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-toastify"
+
+interface Register {
+    id: number,
+    user_type: string,
+    email: string,
+    username: string,
+    full_name: string,
+    password: string,
+    password2: string,
+}
 
 const RegisterForm = () => {
+
+    const [formData, setFormData] = useState<Register>({
+        id: 1,
+        user_type: "",
+        email: "",
+        username: "",
+        full_name: "",
+        password: "",
+        password2: "",
+    })
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
+
+    const registerUser: React.FC<Register> = () => {
+
+        if(formData.password.trim() !== formData.password2.trim()) return toast.error("Password does not match")
+
+        setIsLoading(true)
+        try {
+
+            const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+            const existingUser = users.find((u: Register) => u.email === formData.email);
+            if (existingUser) {
+                toast.error("User already exists")
+                return { success: false, message: "User already exists" };
+            }
+
+            const token = uuidv4();
+
+            const newUser = { ...formData, token };
+
+            users.push(newUser);
+            localStorage.setItem("users", JSON.stringify(users));
+
+            sessionStorage.setItem("currentUser", JSON.stringify(newUser));
+
+            toast.success("Registerd successfully")
+
+            return { success: true, token };
+            
+        } catch (error) {
+            return error
+        }finally{
+            setIsLoading(false)
+        }
+    };
+
     return(
         <div className="h-full w-full">
 
@@ -29,7 +90,7 @@ const RegisterForm = () => {
                                 <div className="mb-3">
                                     <p className="text-start text-sm text-gray-600 mb-3">Create an account as a</p>
                                 </div>
-                                <Radio />
+                                <Radio formData={formData} setFormData={setFormData} />
                             </div>
 
                             <div className="w-full grid grid-cols-2 gap-3">
@@ -37,6 +98,8 @@ const RegisterForm = () => {
                                     <input
                                         type="fullname"
                                         placeholder="Full Name"
+                                        onChange={(e) => setFormData((prevState) => ({...prevState, full_name: e.target.value}))}
+                                        value={formData.full_name}
                                         className="w-full px-4 py-2 border border-orange-200 rounded-lg focus:ring-2 transition duration-200 focus:ring-orange-300 focus:outline-none outline-none"
                                         autoComplete="off"
                                         aria-description="email field"
@@ -47,6 +110,8 @@ const RegisterForm = () => {
                                     <input
                                         type="username"
                                         placeholder="username"
+                                        onChange={(e) => setFormData((prevState) => ({...prevState, username: e.target.value}))}
+                                        value={formData.username}
                                         className="w-full px-4 py-2 border border-orange-200 rounded-lg focus:ring-2 transition duration-200 focus:ring-orange-300 focus:outline-none outline-none"
                                         autoComplete="off"
                                         aria-description="email field"
@@ -58,6 +123,8 @@ const RegisterForm = () => {
                                 <input
                                     type="email"
                                     placeholder="Email"
+                                    onChange={(e) => setFormData((prevState) => ({...prevState, email: e.target.value}))}
+                                        value={formData.email}
                                     className="w-full px-4 py-2 border border-orange-200 rounded-lg focus:ring-2 transition duration-200 focus:ring-orange-300 focus:outline-none outline-none"
                                     autoComplete="off"
                                     aria-description="email field"
@@ -68,6 +135,8 @@ const RegisterForm = () => {
                                 <input
                                     type="password"
                                     placeholder="Password"
+                                    onChange={(e) => setFormData((prevState) => ({...prevState, password: e.target.value}))}
+                                    value={formData.password}
                                     className="w-full px-4 py-2 border  border-orange-200 rounded-lg focus:ring-2 transition duration-200 focus:ring-orange-300 focus:outline-none outline-none"
                                     autoComplete="off"
                                     aria-description="password field"
@@ -78,6 +147,8 @@ const RegisterForm = () => {
                                 <input
                                     type="password"
                                     placeholder="Confirm Password"
+                                    onChange={(e) => setFormData((prevState) => ({...prevState, password2: e.target.value}))}
+                                    value={formData.password2}
                                     className="w-full px-4 py-2 border  border-orange-200 rounded-lg focus:ring-2 transition duration-200 focus:ring-orange-300 focus:outline-none outline-none"
                                     autoComplete="off"
                                     aria-description="password field"
@@ -100,12 +171,23 @@ const RegisterForm = () => {
 
                             <div className="pt-6">
                                 <button
+                                    onClick={registerUser}
                                     type="submit"
                                     className="w-full cursor-pointer bg-orange-500 text-white py-2 transition duration-100 ease-in rounded-lg font-medium hover:bg-orange-600"
                                 >
                                     <div className="w-full flex items-center justify-center gap-1.5">
-                                        <span>Create Account </span>
-                                        <ArrowRight size={20} />
+                                        {isLoading ? (
+                                            <>
+                                                <Loader size={20} className="animate-spin" />
+                                                <span>Creating...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span>Create Account </span>
+                                                <ArrowRight size={20} />
+                                            </>
+                                        )}
+                                        
                                     </div>
                                 </button>
                             </div>

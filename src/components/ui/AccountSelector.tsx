@@ -1,23 +1,45 @@
-import { useState } from 'react';
+
+import type React from 'react';
 import styled from 'styled-components';
 
-const Radio = () => {
+interface FormData {
+  user_type: string;
+  full_name?: string;
+}
 
-    const [isSelected, setIsSelected] = useState<string>("candidate")
-    console.log(isSelected)
+interface Props {
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+}
+
+const Radio: React.FC<Props> = ({ formData, setFormData }) => {
 
     return (
         <StyledWrapper>
             <div className="radio-inputs">
                 <label className="radio">
                     <div className='flex items-center gap-1.5'>
-                        <input defaultChecked name="radio" type="radio" onChange={() => setIsSelected("candidate")} />
+                        <input
+                            type="radio"
+                            name="radio"
+                            checked={formData.user_type === "candidate"}
+                            onChange={() =>
+                                setFormData((prev) => ({ ...prev, user_type: "candidate" }))
+                            }
+                        />
                         <span className="name">Candidate</span>
                     </div>
                 </label>
 
                 <label className="radio">
-                    <input name="radio" type="radio" onChange={() => setIsSelected("employer")}  />
+                    <input
+                        type="radio"
+                        name="radio"
+                        checked={formData.user_type === "employer"}
+                        onChange={() =>
+                        setFormData((prev) => ({ ...prev, user_type: "employer" }))
+                        }
+                    />
                     <span className="name">Employers</span>
                 </label>
             </div>

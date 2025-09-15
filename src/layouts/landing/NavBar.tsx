@@ -21,7 +21,7 @@ const NavBar = () => {
         {
             id: 2,
             label: "Find Job",
-            link: '/job'
+            link: '/find-job'
         },
         {
             id: 3,
@@ -43,7 +43,6 @@ const NavBar = () => {
                             <Logo />
                         </div>
 
-                        {/* Desktop Navigation */}
                         <div className="hidden md:block">
                             <ul className="flex items-center gap-3.5 relative">
                                 {NavLinks.map((nav) => (

@@ -151,193 +151,193 @@ export const steps: Step[] = [
 
 export const categories: Category[] = [
     {
-      id: 1,
-      name: 'Graphics & Design',
-      openPositions: 357,
-      icon: Palette,
-      bgColor: 'bg-blue-100'
+        id: 1,
+        name: 'Graphics & Design',
+        openPositions: 357,
+        icon: Palette,
+        bgColor: 'bg-blue-100'
     },
     {
-      id: 2,
-      name: 'Code & Programing',
-      openPositions: 312,
-      icon: Code,
-      bgColor: 'bg-green-100'
+        id: 2,
+        name: 'Code & Programing',
+        openPositions: 312,
+        icon: Code,
+        bgColor: 'bg-green-100'
     },
     {
-      id: 3,
-      name: 'Digital Marketing',
-      openPositions: 297,
-      icon: TrendingUp,
-      bgColor: 'bg-purple-100'
+        id: 3,
+        name: 'Digital Marketing',
+        openPositions: 297,
+        icon: TrendingUp,
+        bgColor: 'bg-purple-100'
     },
     {
-      id: 4,
-      name: 'Video & Animation',
-      openPositions: 247,
-      icon: Video,
-      bgColor: 'bg-orange-100'
+        id: 4,
+        name: 'Video & Animation',
+        openPositions: 247,
+        icon: Video,
+        bgColor: 'bg-orange-100'
     },
     {
-      id: 5,
-      name: 'Music & Audio',
-      openPositions: 204,
-      icon: Music,
-      bgColor: 'bg-pink-100'
+        id: 5,
+        name: 'Music & Audio',
+        openPositions: 204,
+        icon: Music,
+        bgColor: 'bg-pink-100'
     },
     {
-      id: 6,
-      name: 'Account & Finance',
-      openPositions: 167,
-      icon: Building2,
-      bgColor: 'bg-indigo-100'
+        id: 6,
+        name: 'Account & Finance',
+        openPositions: 167,
+        icon: Building2,
+        bgColor: 'bg-indigo-100'
     },
     {
-      id: 7,
-      name: 'Health & Care',
-      openPositions: 125,
-      icon: Heart,
-      bgColor: 'bg-red-100'
+        id: 7,
+        name: 'Health & Care',
+        openPositions: 125,
+        icon: Heart,
+        bgColor: 'bg-red-100'
     },
     {
-      id: 8,
-      name: 'Data & Science',
-      openPositions: 57,
-      icon: Database,
-      bgColor: 'bg-orange-500 text-white'
+        id: 8,
+        name: 'Data & Science',
+        openPositions: 57,
+        icon: Database,
+        bgColor: 'bg-orange-500 text-white'
     }
 ];
 
 export const jobs: Job[] = [
     {
-      id: 1,
-      title: 'Technical Support Specialist',
-      type: 'PART-TIME',
-      salary: { min: 20000, max: 25000 },
-      company: { name: 'Google Inc.', logo: 'G', location: 'Dhaka, Bangladesh' }
+        id: 1,
+        title: 'Technical Support Specialist',
+        type: 'PART-TIME',
+        salary: { min: 30000, max: 50000 },
+        company: { name: 'Hubtel.', logo: 'H', location: 'Cape Coast, Ghana' }
     },
     {
-      id: 2,
-      title: 'Senior UX Designer',
-      type: 'FULL-TIME',
-      salary: { min: 20000, max: 25000 },
-      company: { name: 'Google Inc.', logo: 'G', location: 'Dhaka, Bangladesh' }
+        id: 2,
+        title: 'Senior UX Designer',
+        type: 'FULL-TIME',
+        salary: { min: 250000, max: 300000 },
+        company: { name: 'MTN Ghana.', logo: 'M', location: 'Accra, Ghana' }
     },
     {
-      id: 3,
-      title: 'Marketing Officer',
-      type: 'INTERNSHIP',
-      salary: { min: 20000, max: 25000 },
-      company: { name: 'Google Inc.', logo: 'G', location: 'Dhaka, Bangladesh' }
+        id: 3,
+        title: 'Marketing Officer',
+        type: 'INTERNSHIP',
+        salary: { min: 80000, max: 100000 },
+        company: { name: 'Amalitech.', logo: 'A', location: 'Accra, Ghana' }
     },
     {
-      id: 4,
-      title: 'Junior Graphic Designer',
-      type: 'PART-TIME',
-      salary: { min: 20000, max: 25000 },
-      company: { name: 'Google Inc.', logo: 'G', location: 'Dhaka, Bangladesh' }
+        id: 4,
+        title: 'Junior Graphic Designer',
+        type: 'PART-TIME',
+        salary: { min: 4000, max: 5000 },
+        company: { name: 'poco Solutions.', logo: 'P', location: 'Accra, Ghana' }
     },
     {
-      id: 5,
-      title: 'Interaction Designer',
-      type: 'PART-TIME',
-      salary: { min: 20000, max: 25000 },
-      company: { name: 'Google Inc.', logo: 'G', location: 'Dhaka, Bangladesh' }
+        id: 5,
+        title: 'Interaction Designer',
+        type: 'PART-TIME',
+        salary: { min: 100000, max: 1500000 },
+        company: { name: 'Telecel.', logo: 'T', location: 'Accra, Ghana' }
     },
     {
-      id: 6,
-      title: 'Project Manager',
-      type: 'FULL-TIME',
-      salary: { min: 20000, max: 25000 },
-      company: { name: 'Google Inc.', logo: 'G', location: 'Dhaka, Bangladesh' }
+        id: 6,
+        title: 'Project Manager',
+        type: 'FULL-TIME',
+        salary: { min: 200000, max: 300000 },
+        company: { name: 'GoriaAI.', logo: 'G', location: 'Accra, Ghana' }
     }
 ];
 
 export const companies: Company[] = [
     {
-      id: 1,
-      name: 'Dribbble',
-      logo: 'D',
-      location: 'Dhaka, Bangladesh',
-      featured: true,
-      openPositions: 3,
-      bgColor: 'bg-pink-500'
+        id: 1,
+        name: 'Telecel',
+        logo: 'T',
+        location: 'Accra, Ghana',
+        featured: true,
+        openPositions: 3,
+        bgColor: 'bg-red-500'
     },
     {
-      id: 2,
-      name: 'Dribbble',
-      logo: 'D',
-      location: 'Dhaka, Bangladesh',
-      featured: true,
-      openPositions: 5,
-      bgColor: 'bg-pink-500'
+        id: 2,
+        name: 'GoriaAI',
+        logo: 'G',
+        location: 'Accra, Ghana',
+        featured: true,
+        openPositions: 5,
+        bgColor: 'bg-blue-700'
     },
     {
-      id: 3,
-      name: 'Dribbble',
-      logo: 'D',
-      location: 'Dhaka, Bangladesh',
-      featured: true,
-      openPositions: 3,
-      bgColor: 'bg-pink-500'
+        id: 3,
+        name: 'Amalitech',
+        logo: 'A',
+        location: 'Takoradi, Ghana',
+        featured: true,
+        openPositions: 3,
+        bgColor: 'bg-orange-500'
     }
 ];
 
 
 export const testimonials: Testimonial[] = [
     {
-      id: 1,
-      name: 'Sarah Johnson',
-      position: 'Senior Developer',
-      company: 'TechCorp',
-      avatar: 'SJ',
-      rating: 5,
-      content: 'JobPilot helped me find my dream job in just 2 weeks! The platform is incredibly user-friendly and the job recommendations were spot on. I highly recommend it to anyone looking for their next career opportunity.',
-      featured: true
+        id: 1,
+        name: 'Sarah Johnson',
+        position: 'Senior Developer',
+        company: 'TechCorp',
+        avatar: 'SJ',
+        rating: 5,
+        content: 'JobPilot helped me find my dream job in just 2 weeks! The platform is incredibly user-friendly and the job recommendations were spot on. I highly recommend it to anyone looking for their next career opportunity.',
+        featured: true
     },
     {
-      id: 2,
-      name: 'Michael Chen',
-      position: 'UX Designer',
-      company: 'DesignHub',
-      avatar: 'MC',
-      rating: 5,
-      content: 'Amazing platform with great job opportunities. The application process was seamless and I received multiple interview invitations within days of uploading my resume.'
+        id: 2,
+        name: 'Michael Chen',
+        position: 'UX Designer',
+        company: 'DesignHub',
+        avatar: 'MC',
+        rating: 5,
+        content: 'Amazing platform with great job opportunities. The application process was seamless and I received multiple interview invitations within days of uploading my resume.'
     },
     {
-      id: 3,
-      name: 'Emily Rodriguez',
-      position: 'Marketing Manager',
-      company: 'BrandWorks',
-      avatar: 'ER',
-      rating: 4,
-      content: 'JobPilot transformed my job search experience. The personalized job matches and easy application process made finding the perfect role effortless. Truly exceptional service!'
+        id: 3,
+        name: 'Emily Rodriguez',
+        position: 'Marketing Manager',
+        company: 'BrandWorks',
+        avatar: 'ER',
+        rating: 4,
+        content: 'JobPilot transformed my job search experience. The personalized job matches and easy application process made finding the perfect role effortless. Truly exceptional service!'
     },
     {
-      id: 4,
-      name: 'David Kumar',
-      position: 'Data Scientist',
-      company: 'DataTech Solutions',
-      avatar: 'DK',
-      rating: 5,
-      content: 'Outstanding job portal! The advanced filtering options helped me find exactly what I was looking for. Got hired within a month of joining the platform.'
+        id: 4,
+        name: 'David Kumar',
+        position: 'Data Scientist',
+        company: 'DataTech Solutions',
+        avatar: 'DK',
+        rating: 5,
+        content: 'Outstanding job portal! The advanced filtering options helped me find exactly what I was looking for. Got hired within a month of joining the platform.'
     },
     {
-      id: 5,
-      name: 'Lisa Thompson',
-      position: 'Product Manager',
-      company: 'InnovateLabs',
-      avatar: 'LT',
-      rating: 5,
-      content: 'Professional, efficient, and results-driven. JobPilot connected me with top-tier companies and helped me land my ideal position. Couldn\'t be happier with the outcome!'
+        id: 5,
+        name: 'Lisa Thompson',
+        position: 'Product Manager',
+        company: 'InnovateLabs',
+        avatar: 'LT',
+        rating: 5,
+        content: 'Professional, efficient, and results-driven. JobPilot connected me with top-tier companies and helped me land my ideal position. Couldn\'t be happier with the outcome!'
     },
     {
-      id: 6,
-      name: 'James Wilson',
-      position: 'Software Engineer',
-      company: 'CodeCraft',
-      avatar: 'JW',
-      rating: 4,
-      content: 'Great platform for job seekers! The interface is clean, the search functionality is powerful, and the customer support team is very responsive. Highly recommended!'
+        id: 6,
+        name: 'James Wilson',
+        position: 'Software Engineer',
+        company: 'CodeCraft',
+        avatar: 'JW',
+        rating: 4,
+        content: 'Great platform for job seekers! The interface is clean, the search functionality is powerful, and the customer support team is very responsive. Highly recommended!'
     }
 ];

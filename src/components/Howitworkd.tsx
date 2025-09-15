@@ -4,11 +4,11 @@ import { steps } from '../data/landing/landing';
 const HowItWorks = () => {
 
     return (
-        <div className="py-16 px-4">
+        <div className="py-16">
             <div className="max-w-6xl mx-auto">
                 <div className="text-start mb-16">
-                    <h2 className="text-4xl font-bold text-gray-800 mb-4">
-                        How jobpilot work
+                    <h2 className="text-4xl max-md:text-xl font-bold text-gray-800 mb-4">
+                        How HireHub work
                     </h2>
                 </div>
 
@@ -36,6 +36,7 @@ const HowItWorks = () => {
                                         <h3 className="text-xl font-semibold text-gray-800">
                                             {step.title}
                                         </h3>
+                                        
                                         <p className="text-gray-600 text-sm leading-relaxed max-w-xs mx-auto">
                                             {step.description}
                                         </p>
@@ -62,6 +63,7 @@ const HowItWorks = () => {
                                                         <polygon points="0 0, 10 3.5, 0 7" />
                                                     </marker>
                                                 </defs>
+
                                                 <path
                                                     d="M10 30 Q30 15 50 30"
                                                     stroke="currentColor"
@@ -78,12 +80,6 @@ const HowItWorks = () => {
                             );
                         })}
                     </div>
-                </div>
-
-                <div className="text-center mt-16">
-                    <span className="inline-block bg-orange-500 text-white px-4 py-2 rounded text-sm font-medium">
-                        1920 Hug x 522 Hug
-                    </span>
                 </div>
             </div>
         </div>

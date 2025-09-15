@@ -2,6 +2,7 @@
 
 body{
   background: #fff;
+  scroll-behavior: smooth;
 }
 
 @keyframes blink {

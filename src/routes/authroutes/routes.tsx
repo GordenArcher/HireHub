@@ -15,7 +15,6 @@ const AuthRoutes = () => {
                     <Route path="reset-password" element={ <ForgetPassword />} />
                 </Routes>
             </div>
-            
         </div>
     )
 }

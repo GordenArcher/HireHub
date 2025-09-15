@@ -37,10 +37,6 @@ const AuthRight = () => {
             <div className="h-[80%] max-md:hidden w-4/4 bg-gradient-to-br from-amber-400 via-orange-500 p-4 rounded-2xl to-red-600  text-white">
                 <div className='h-full'>
 
-                    <div className=''>
-                        HELLO
-                    </div>
-
                     <div className="h-full space-y-2 flex flex-col justify-end pb-7">
                         <div className="space-y-2.5">
                             <h2 className="text-4xl font-bold">HireHub</h2>
