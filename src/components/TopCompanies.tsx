@@ -3,7 +3,7 @@ import { companies } from "../data/landing/landing"
 
 const TopCompanies = () => {
     return (
-        <section className="space-y-12 mb-8">
+        <section className="py-12 mb-8">
             <div className="flex justify-between items-center mb-8">
                 <h2 className="text-3xl font-bold text-gray-900">Top companies</h2>
             </div>

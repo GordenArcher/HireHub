@@ -41,7 +41,7 @@ const TestimonialsComponent: React.FC = () => {
                     </h2>
 
                     <p className="text-lg text-gray-600">
-                        Discover what our satisfied clients have to say about their experience with JobPilot
+                        Discover what our satisfied clients have to say about their experience with HireHub
                     </p>
                 </div>
 

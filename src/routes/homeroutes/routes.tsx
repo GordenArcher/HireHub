@@ -4,6 +4,7 @@ import NavBar from "../../layouts/landing/NavBar"
 import Footer from "../../layouts/Footer"
 import FindJob from "../../pages/main/candidates/FindJob"
 import Dashboard from "../../pages/main/candidates/dashboard/dashboard"
+import JobDetails from "../../pages/main/landing/JobDetails"
 
 const HomeRoutes = () => {
     return (
@@ -18,9 +19,9 @@ const HomeRoutes = () => {
                         <Route path="/" element={ <Landing /> } />
                         <Route path="/find-job" element={ <FindJob /> } />
                         <Route path="me/dashboard" element={ <Dashboard /> } />
+                        <Route path="position/details/:id" element={ <JobDetails /> } />
                     </Routes>
                 </section>
-
                 <Footer />
                 
             </div>

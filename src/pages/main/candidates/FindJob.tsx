@@ -1,10 +1,11 @@
 import { MapPin, Search, SlidersIcon } from "lucide-react"
 import { Link } from "react-router-dom"
 import FeaturedJob from "../../../components/Featured"
+import { jobs } from "../../../data/landing/landing"
 
 const FindJob = () => {
     return (
-        <div className="py-12 relative">
+        <div className="py-12 max-md:p-2 relative">
             <div className="space-y-4 w-full">
                 <div className="flex items-center justify-between gap-2">
                     <div>
@@ -64,7 +65,9 @@ const FindJob = () => {
             </div>
 
             <section className="py-7 relative">
-                <FeaturedJob />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {jobs.map((job) => <FeaturedJob key={job.id} job={job} />)}
+                </div>
             </section>
         </div>
     )

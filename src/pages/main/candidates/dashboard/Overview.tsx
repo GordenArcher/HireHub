@@ -82,7 +82,7 @@ const Overview = ({ setActiveTab }: ActiveTabProps) => {
                         <div className='grid grid-cols-2 gap-2 w-full max-md:grid-cols-1'>
                             {JobOverview.map((job) => {
                                 return (
-                                    <div key={job.id} className={`w-full bg-${job.bgcolor} rounded-md p-9 relative`}>
+                                    <div key={job.id} className={`w-full bg-${job.bgcolor} bg-blue-600 rounded-md p-9 relative`}>
                                         <div className='flex items-center justify-between gap-2.5'>
                                             <div className='text-start space-y-2.5'>
                                                 <h2 className='text-xl text-white font-black'>{job.figure}</h2>
@@ -90,7 +90,7 @@ const Overview = ({ setActiveTab }: ActiveTabProps) => {
                                             </div>
 
                                             <div className='w-15 h-15 rounded bg-white flex items-center justify-center'>
-                                                <job.icon className={`text-${job.bgcolor} `} />
+                                                <job.icon className={`text-${job.bgcolor} text-blue-600 `} />
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +129,7 @@ const Overview = ({ setActiveTab }: ActiveTabProps) => {
                             <tbody className="divide-y divide-gray-200">
                                 {JobApplications.slice(0, 10).map((job) => {
                                     return (
-                                        <JobApplicationCard job={job} />
+                                        <JobApplicationCard key={job.id} job={job} />
                                     )
                                 })}
                             

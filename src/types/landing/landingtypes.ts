@@ -33,7 +33,7 @@ export interface Category {
 export interface Job {
     id: number;
     title: string;
-    type: 'FULL-TIME' | 'PART-TIME' | 'INTERNSHIP';
+    type: 'FULL-TIME' | 'PART-TIME' | 'INTERNSHIP' | 'CONTRACT';
     salary: {
         min: number;
         max: number;
@@ -42,7 +42,12 @@ export interface Job {
         name: string;
         logo: string;
         location: string;
-    };
+    },
+    description: string,
+    requirements: string[],
+    desirable: string[],
+    benefits: string[],
+    tags: string[]
 }
 
 export interface Company {

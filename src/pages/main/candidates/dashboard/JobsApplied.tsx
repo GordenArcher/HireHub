@@ -27,7 +27,7 @@ const JobsApplied = () => {
                             <tbody className="divide-y divide-gray-200">
                                 {JobApplications.map((job) => {
                                     return (
-                                        <JobApplicationCard job={job} />
+                                        <JobApplicationCard key={job.id} job={job} />
                                     )
                                 })}
                             

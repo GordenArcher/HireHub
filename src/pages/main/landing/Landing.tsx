@@ -1,6 +1,6 @@
 import { ChevronRight, MapPin, Search } from 'lucide-react'
 import HomeImage from '../../../assets/images/home.svg'
-import { HeroData, MostPopularVaca } from '../../../data/landing/landing'
+import { HeroData, jobs, MostPopularVaca } from '../../../data/landing/landing'
 import HeroCard from '../../../components/ui/HeroCard'
 import { Link } from 'react-router-dom'
 import HowItWorks from '../../../components/Howitworkd'
@@ -9,8 +9,12 @@ import Testimonial from '../../../components/Testimonial'
 import PopularCategory from '../../../components/PopularCategory'
 import TopCompanies from '../../../components/TopCompanies'
 import CTO from '../../../components/CTO'
+import type { Job } from '../../../types/landing/landingtypes'
 
 const Landing = () => {
+
+    const SlicedJob: Job[] = jobs.slice(0, 9)
+
     return (
         <div className="max-md:p-3 relative w-full h-full">
             <div className="py-12 space-y-3">
@@ -136,7 +140,14 @@ const Landing = () => {
                             View All <ChevronRight size={20} className="ml-1" />
                         </Link>
                     </div>
-                <FeaturedJob />
+
+                <section>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {SlicedJob.map((job) => <FeaturedJob key={job.id} job={job} />)}
+                    </div>
+                </section>
+                    
+                
             </section>
 
             
