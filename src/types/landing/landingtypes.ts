@@ -70,3 +70,10 @@ export interface Testimonial {
     content: string;
     featured?: boolean;
 }
+
+export interface NavLinks {
+    id: number,
+    label: string,
+    icon: LucideIcon,
+    link: string
+}

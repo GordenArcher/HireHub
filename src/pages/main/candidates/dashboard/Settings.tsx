@@ -1,16 +1,10 @@
-import { Globe, User, UserCircle, Settings,type LucideIcon } from "lucide-react"
+import { Globe, User, UserCircle, Settings } from "lucide-react"
 import { useState } from "react"
 import Personal from "../../../../layouts/dashboard/settings/Personal"
 import Profile from "../../../../layouts/dashboard/settings/Profile"
 import SocilaLinks from "../../../../layouts/dashboard/settings/SocilaLinks"
 import AccountSettings from "../../../../layouts/dashboard/settings/AccountSettings"
-
-interface NavLinks {
-    id: number,
-    label: string,
-    icon: LucideIcon,
-    link: string
-}
+import type { NavLinks } from "../../../../types/landing/landingtypes"
 
 const Candidate_Settings = () => {
     const [activeTab, setActiveTab] = useState<string>("personal")
@@ -51,10 +45,11 @@ const Candidate_Settings = () => {
 
                 <div>
                     <div className="pt-5">
-                        <ul className="w-full flex items-center gap-5.5 overflow-auto relative">
+                        <ul className="w-full flex items-center gap-5.5 overflow-auto whitespace-nowrap scrollbar-hide relative">
                                 {Links.map((nav) => (
-                                    <li key={nav.id} className="w-full block relative">
+                                    <li key={nav.id} className="block relative">
                                         <button
+                                            type="button"
                                             title={nav.label}
                                             onClick={() => setActiveTab(nav.link)}
                                             className={`relative cursor-pointer ${activeTab === nav.link ? 'text-orange-500' : ' text-slate-600'} hover:text-red-600 pb-1 transition font-medium`}

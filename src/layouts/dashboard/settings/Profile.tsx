@@ -1,5 +1,6 @@
 import { Save } from "lucide-react"
 import { EducationLevels, ExperienceRanges, Nationalities } from "../../../types/dashboard/candidateDashboard"
+import Button from "../../../components/ui/Button"
 
 const Profile = () => {
     return (
@@ -75,12 +76,14 @@ const Profile = () => {
             </div>
 
             <div className="items-start py-4 relative">
-                <button title="save" className="px-5 py-3 bg-orange-500 text-white cursor-pointer transition duration-150 ease-in-out hover:bg-orange-600 rounded-md" >
-                    <div className="flex items-center w-full gap-2.5">
-                        <Save size={20} />
-                        <span className="font-normal">Save</span>
-                    </div>
-                </button>
+                <Button title="save">
+                    {
+                        <>
+                            <Save size={20} />
+                            <span className="font-normal">Save</span>
+                        </>
+                    }
+                </Button>
             </div>
         </div>
     )

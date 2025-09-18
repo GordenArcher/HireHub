@@ -1,16 +1,17 @@
-import { Upload, FileText, MoreVertical, Edit, Trash2, PlusCircle, Globe, Save } from "lucide-react";
+import { Upload, FileText, PlusCircle, Save } from "lucide-react";
 import { EducationLevels, ExperienceRanges } from "../../../types/dashboard/candidateDashboard";
+import Button from "../../../components/ui/Button";
 
 const Personal = () => {
     return (
         <div className="w-full h-full relative p-6">
-            <div className="space-y-6">
+            <div className="h-full space-y-6">
                 <div>
                     <h2 className="text-xl font-semibold text-gray-800">Basic Information</h2>
                 </div>
 
-                <div className="flex h-full items-start gap-2.5">
-                    <div className="w-100 h-[100%] relative ">
+                <div className="grid grid-cols-[30%_70%] h-full max-md:grid-cols-1 items-start gap-2.5">
+                    <div className="w-full h-full relative ">
                         <>
                             <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-40 cursor-pointer hover:bg-gray-50 transition">
                                 <Upload size={28} className="text-gray-500" />
@@ -56,12 +57,14 @@ const Personal = () => {
                         </div>
 
                         <div className="items-start py-4 relative">
-                            <button title="save" className="px-5 py-3 bg-orange-500 text-white cursor-pointer transition duration-150 ease-in-out hover:bg-orange-600 rounded-md" >
-                                <div className="flex items-center w-full gap-2.5">
-                                    <Save size={20} />
-                                    <span className="font-normal">Save</span>
-                                </div>
-                            </button>
+                            <Button title="save" >
+                                {
+                                    <>
+                                        <Save size={20} />
+                                        <span className="font-normal">Save</span>
+                                    </>
+                                }
+                            </Button>
                         </div>
                     </div>
                 </div>

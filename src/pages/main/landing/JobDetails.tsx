@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { GetJobTypeColor } from "../../../utils/JobColor";
 import { useBookmarkStore } from "../../../stores/useBookmarkstore";
-import { ArrowRight, Bookmark, Copy, Facebook, LinkedinIcon, LinkIcon, Map, Twitter } from "lucide-react";
+import { ArrowRight, Bookmark, Facebook, LinkedinIcon, LinkIcon, Map, Twitter } from "lucide-react";
 import { FormatSalaryRange } from "../../../utils/FormatSalary";
 import FeaturedJob from "../../../components/Featured";
 import { jobs } from "../../../data/landing/landing";

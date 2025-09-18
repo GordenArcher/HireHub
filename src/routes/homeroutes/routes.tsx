@@ -22,6 +22,7 @@ const HomeRoutes = () => {
                         <Route path="position/details/:id" element={ <JobDetails /> } />
                     </Routes>
                 </section>
+
                 <Footer />
                 
             </div>
