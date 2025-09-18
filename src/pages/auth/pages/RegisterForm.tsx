@@ -3,68 +3,28 @@ import AuthRight from "../../../components/ui/AuthRightUI"
 import { ArrowRight, Loader } from "lucide-react"
 import Logo from "../../../components/ui/Logo"
 import Radio from "../../../components/ui/AccountSelector"
-import React, { useState } from "react"
-import { v4 as uuidv4 } from "uuid";
-import { toast } from "react-toastify"
-
-interface Register {
-    id: number,
-    user_type: string,
-    email: string,
-    username: string,
-    full_name: string,
-    password: string,
-    password2: string,
-}
+import { useCallback, useState } from "react"
+import type { Register } from "../../../types/auth/AuthTypes"
+import RegisterAPI from "../containers/RegisterAPI"
 
 const RegisterForm = () => {
 
     const [formData, setFormData] = useState<Register>({
-        id: 1,
-        user_type: "",
+        user_type: "JS",
         email: "",
         username: "",
-        full_name: "",
+        fullname: "",
         password: "",
         password2: "",
     })
-    const [isLoading, setIsLoading] = useState<boolean>(false)
 
+    const { handleRegister, isLoading} = RegisterAPI()
 
-    const registerUser: React.FC<Register> = () => {
-
-        if(formData.password.trim() !== formData.password2.trim()) return toast.error("Password does not match")
-
-        setIsLoading(true)
-        try {
-
-            const users = JSON.parse(localStorage.getItem("users") || "[]");
-
-            const existingUser = users.find((u: Register) => u.email === formData.email);
-            if (existingUser) {
-                toast.error("User already exists")
-                return { success: false, message: "User already exists" };
-            }
-
-            const token = uuidv4();
-
-            const newUser = { ...formData, token };
-
-            users.push(newUser);
-            localStorage.setItem("users", JSON.stringify(users));
-
-            sessionStorage.setItem("currentUser", JSON.stringify(newUser));
-
-            toast.success("Registerd successfully")
-
-            return { success: true, token };
-            
-        } catch (error) {
-            return error
-        }finally{
-            setIsLoading(false)
-        }
-    };
+    const registerUser = useCallback( async () => {
+            await handleRegister(formData)
+        },[formData, handleRegister],
+    )
+    
 
     return(
         <div className="h-full w-full">
@@ -90,6 +50,7 @@ const RegisterForm = () => {
                                 <div className="mb-3">
                                     <p className="text-start text-sm text-gray-600 mb-3">Create an account as a</p>
                                 </div>
+
                                 <Radio formData={formData} setFormData={setFormData} />
                             </div>
 
@@ -98,8 +59,8 @@ const RegisterForm = () => {
                                     <input
                                         type="fullname"
                                         placeholder="Full Name"
-                                        onChange={(e) => setFormData((prevState) => ({...prevState, full_name: e.target.value}))}
-                                        value={formData.full_name}
+                                        onChange={(e) => setFormData((prevState) => ({...prevState, fullname: e.target.value}))}
+                                        value={formData.fullname}
                                         className="w-full px-4 py-2 border border-orange-200 rounded-lg focus:ring-2 transition duration-200 focus:ring-orange-300 focus:outline-none outline-none"
                                         autoComplete="off"
                                         aria-description="email field"

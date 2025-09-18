@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-    baseURL: import.meta.env.VITE_MOCKAPI_BASE_URL,
-    withCredentials: false,
+    baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -10,8 +10,8 @@ const axiosClient = axios.create({
 });
 
 
-// let isRefreshing = false;
-// // let failedQueue = [];
+let isRefreshing = false;
+// let failedQueue = [];
 
 // // const processQueue = (error, token = null) => {
 // //   failedQueue.forEach(prom => {
@@ -21,34 +21,33 @@ const axiosClient = axios.create({
 // //       prom.resolve(token);
 // //     }
 // //   });
-
 // //   failedQueue = [];
 // // };
 
-// axiosClient.interceptors.response.use(
-//     response => response,
-//     async error => {
-//         const originalRequest = error.config;
+axiosClient.interceptors.response.use(
+    response => response,
+    async error => {
+        const originalRequest = error.config;
 
-//         if (error.response?.status === 401 && !originalRequest._retry) {
-//         originalRequest._retry = true;
+        if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
 
-//         try {
-//             if (!isRefreshing) {
-//             isRefreshing = true;
-//             await axiosClient.post("/users/refresh/");
-//             isRefreshing = false;
-//             }
-//             return axiosClient(originalRequest);
-//         } catch (err) {
-//             isRefreshing = false;
-//             return Promise.reject(err); 
-//         }
-//         }
+        try {
+            if (!isRefreshing) {
+            isRefreshing = true;
+            await axiosClient.post("refresh/");
+            isRefreshing = false;
+            }
+            return axiosClient(originalRequest);
+        } catch (err) {
+            isRefreshing = false;
+            return Promise.reject(err); 
+        }
+        }
 
-//         return Promise.reject(error);
-//     }
-// );
+        return Promise.reject(error);
+    }
+);
 
 
 

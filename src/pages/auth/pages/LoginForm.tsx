@@ -2,84 +2,68 @@ import { ArrowRight, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
 import Logo from "../../../components/ui/Logo";
 import AuthRight from "../../../components/ui/AuthRightUI";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import type { Login } from "../../../types/auth/AuthTypes";
+import LoginAPI from "../containers/LoginAPI";
+import { useAuthStore } from "../../../stores/useAuthStore";
 
 
 const LoginForm = () => {
+    const { setAuthenticated } = useAuthStore()
 
     const [formaData, setFormData] = useState({
         email: "",
         password: ""
     })
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    // const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    // const { handleLogin, isLoading } = LoginAPI()
+    const { handleLogin, isLoading } = LoginAPI()
 
-    // const Login = useCallback( async () => {
-    //     await handleLogin(formaData)
-    // }, [formaData, handleLogin])
+    const Login = useCallback( async () => {
+        const response = await handleLogin(formaData)
 
-    // const handle_Login = async () => {
+        if(response){
+            setAuthenticated(response?.authenticated)
+        }
 
+    }, [formaData, handleLogin])
+
+
+    // const loginUser = () => {
     //     if(!formaData.email.trim() || !formaData.password.trim()) return toast.error("Email and Password are required")
 
     //     setIsLoading(true)
 
     //     try {
-            
-    //         const response: any = localStorage.getItem("auth")
 
-    //         const username = response.email === "archergorden@gmail.com"
-    //         const password = response.password === "12345"
+    //         const users = JSON.parse(localStorage.getItem("users") || "[]");
 
-    //         if(username && password){
-    //             toast.success("Login Successful")
+    //         const foundUser = users.find(
+    //             (u: Login) => u.email === formaData.email && u.password === formaData.password
+    //         );
+
+    //         if (!foundUser) {
+    //             toast.error("Invalid Credentials")
+    //             return { success: false, message: "Invalid credentials" };
     //         }
 
+    //         const token = uuidv4();
+    //         const updatedUser = { ...foundUser, token };
+
+    //         sessionStorage.setItem("currentUser", JSON.stringify(updatedUser));
+
+    //         toast.success("Login Successfull")
+
+    //         return { success: true, token, user: updatedUser };
+            
     //     } catch (error) {
-    //         toast.error("Invalid Credentials")
-    //         console.log(error)
+    //         return error
     //     }finally{
     //         setIsLoading(false)
     //     }
-    // }
-
-    const loginUser = () => {
-        if(!formaData.email.trim() || !formaData.password.trim()) return toast.error("Email and Password are required")
-
-        setIsLoading(true)
-
-        try {
-
-            const users = JSON.parse(localStorage.getItem("users") || "[]");
-
-            const foundUser = users.find(
-                (u: Login) => u.email === formaData.email && u.password === formaData.password
-            );
-
-            if (!foundUser) {
-                toast.error("Invalid Credentials")
-                return { success: false, message: "Invalid credentials" };
-            }
-
-            const token = uuidv4();
-            const updatedUser = { ...foundUser, token };
-
-            sessionStorage.setItem("currentUser", JSON.stringify(updatedUser));
-
-            toast.success("Login Successfull")
-
-            return { success: true, token, user: updatedUser };
-            
-        } catch (error) {
-            return error
-        }finally{
-            setIsLoading(false)
-        }
-    };
+    // };
 
     return (
         <div className="h-full w-full">
@@ -143,7 +127,7 @@ const LoginForm = () => {
 
                             <div className="pt-6">
                                 <button
-                                    onClick={loginUser}
+                                    onClick={Login}
                                     disabled={isLoading}
                                     type="submit"
                                     className="w-full disabled:cursor-not-allowed cursor-pointer bg-orange-500 text-white py-3 transition duration-100 ease-in rounded-lg font-medium hover:bg-orange-600"

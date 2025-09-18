@@ -2,6 +2,7 @@ import { useState } from "react"
 import type { Login } from "../../../types/auth/AuthTypes"
 import { toast } from "react-toastify"
 import axiosClient from "../../../utils/axiosClient"
+import { handleApiError } from "../../../components/errors/ErrorHandler"
 
 const LoginAPI = () => {
 
@@ -14,12 +15,14 @@ const LoginAPI = () => {
         
             setIsLoading(true)
 
-            const response = await axiosClient.post("login", { "email": formdata.email, "password": formdata.password})
+            const response = await axiosClient.post("/login/", {"email": formdata.email, "password": formdata.password})
 
-            console.log(response)
+            toast.success(response.data.message)
+
+            return response
             
         } catch (error) {
-            return error
+            handleApiError(error)
         }finally{
             setIsLoading(false)
         }

@@ -1,10 +1,9 @@
-
 import type React from 'react';
 import styled from 'styled-components';
 
 interface FormData {
   user_type: string;
-  full_name?: string;
+  fullname?: string;
 }
 
 interface Props {
@@ -22,9 +21,9 @@ const Radio: React.FC<Props> = ({ formData, setFormData }) => {
                         <input
                             type="radio"
                             name="radio"
-                            checked={formData.user_type === "candidate"}
+                            checked={formData.user_type === "JS"}
                             onChange={() =>
-                                setFormData((prev) => ({ ...prev, user_type: "candidate" }))
+                                setFormData((prev) => ({ ...prev, user_type: "JS" }))
                             }
                         />
                         <span className="name">Candidate</span>
@@ -35,9 +34,9 @@ const Radio: React.FC<Props> = ({ formData, setFormData }) => {
                     <input
                         type="radio"
                         name="radio"
-                        checked={formData.user_type === "employer"}
+                        checked={formData.user_type === "EM"}
                         onChange={() =>
-                        setFormData((prev) => ({ ...prev, user_type: "employer" }))
+                        setFormData((prev) => ({ ...prev, user_type: "EM" }))
                         }
                     />
                     <span className="name">Employers</span>
