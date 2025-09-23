@@ -1,59 +1,93 @@
-import { Bookmark, BriefcaseBusiness, HomeIcon, LogOut, Settings, SidebarClose, SidebarOpen } from "lucide-react"
+import { Bookmark, BriefcaseBusiness, HomeIcon, LogOut, PlusCircle, Settings, SidebarClose, SidebarOpen } from "lucide-react"
 import type { LucideIcon } from "lucide-react";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Overview from "./Overview";
-import Setting from "./Settings";
-import JobsApplied from "./JobsApplied";
-import FavoritesJob from "./FavoritesJob";
+import Setting from "../../pages/main/candidates/dashboard/Settings";
+import JobsApplied from "../../pages/main/candidates/dashboard/JobsApplied";
+import FavoritesJob from "../../pages/main/candidates/dashboard/FavoritesJob";
+import PostJob from "../../pages/main/employers/dashboard/PostJob";
+import JobsPosted from "../../pages/main/employers/dashboard/JobsPosted";
+import SavedCandidate from "../../pages/main/employers/dashboard/SavedCandidate";
+import EmployerSettings from "../../layouts/employer/dashboard/Settings/EmployerSettings";
 
 interface SideNav {
     id: number,
     icon: LucideIcon,
     label: string
+    type?: string
 }
 
 const Dashboard = () => {
     const [activeTab, setActiveTab] = useState<string>("Overview")
-    const [showSide, setShowSide] = useState<boolean>(false)
+    const [showSide, setShowSide] = useState<boolean>(true)
+    const user_type = "EM"
 
-    // useEffect(() => {
+    useEffect(() => {
+        const getWidth = () => {
+            if (window.innerWidth <= 786) {
+                setShowSide(false); 
+            } else {
+                setShowSide(true);
+            }
+        };
 
-    //     const getWidth = () => {
-    //         if(document. > 786){
-    //             setShowSide(false)
-    //         }
-    //     }
+        getWidth();
 
+        window.addEventListener("resize", getWidth);
 
-    //     document.addEventListener("resize", getWidth)
+        return () => {
+            window.removeEventListener("resize", getWidth);
+        };
 
-    //     return () => {
-    //         document.removeEventListener("resize", getWidth)
-    //     }
-    // }, [])
+    }, []);
 
     const SideNav: SideNav[] = [
         {
             id : 1,
             icon: HomeIcon,
-            label : "Overview"
+            label : "Overview",
+            type: "both"
+
         },
         {
             id : 2,
             icon: BriefcaseBusiness,
-            label : "Applied Jobs"
+            label : "Applied Jobs",
+            type: "JS"
         },
         {
             id : 3,
             icon: Bookmark,
-            label : "Favourite Jobs"
+            label : "Favourite Jobs",
+            type: "JS"
         },
         {
             id : 4,
+            icon: PlusCircle,
+            label : "Post a Job",
+            type: "EM"
+        },
+        {
+            id : 5,
+            icon: BriefcaseBusiness,
+            label : "My Jobs",
+            type: "EM"
+        },
+        {
+            id : 6,
+            icon: Bookmark,
+            label : "Saved Candidates",
+            type: "EM"
+        },
+        {
+            id : 7,
             icon: Settings,
-            label : "Settings"
+            label : "Settings",
+            type: "both"
         },
     ]
+
+    const user_Dashboard = SideNav.filter((nav) => nav.type === user_type || nav.type === "both")
 
     return (
         <div className="w-full h-[80vh] overflow-auto relative">
@@ -76,7 +110,7 @@ const Dashboard = () => {
                     <div className="flex h-full flex-col gap-2.5 justify-between">
                         <div className="pt-5">
                             <ul className="flex flex-col items-start gap-2.5">
-                                {SideNav.map((nav) => {
+                                {user_Dashboard.map((nav) => {
                                     const Icon = nav.icon;
                                     return (
                                         <li onClick={() => setActiveTab(nav.label)} key={nav.id} className={`w-full px-5 max-md:px-2 rounded py-3 cursor-pointer transition duration-150 ease-in hover:bg-orange-500/50 ${activeTab === nav.label ? 'border-l-4 border-orange-500 bg-orange-500/50 text-orange-700' : 'text-slate-500'} `}>
@@ -121,7 +155,10 @@ const Dashboard = () => {
                     {activeTab === "Overview" && <Overview setActiveTab={setActiveTab} />}
                     {activeTab === "Applied Jobs" && <JobsApplied />}
                     {activeTab === "Favourite Jobs" && <FavoritesJob />}
-                    {activeTab === "Settings" && <Setting />}
+                    {activeTab === "Post a Job" && <PostJob />}
+                    {activeTab === "My Jobs" && <JobsPosted />}
+                    {activeTab === "Saved Candidates" && <SavedCandidate />}
+                    {activeTab === "Settings" && ( user_type == "JS" ? <Setting /> : <EmployerSettings /> ) }
                 </section>
             </div>
         </div>

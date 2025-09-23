@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
-import AuthLogin from '../../../../assets/images/auth.svg'
-import { ArrowRight, BookmarkIcon, BriefcaseBusiness, type LucideIcon } from "lucide-react";
+import AuthLogin from '../../assets/images/auth.svg'
+import { BookmarkIcon, BriefcaseBusiness, type LucideIcon } from "lucide-react";
 import type React from 'react';
-import { JobApplications } from '../../../../data/dashboard/candidateDashboard';
-import JobApplicationCard from '../../../../components/dashboard/JobApplicationCard';
+import CandidateOverview from '../../pages/main/candidates/dashboard/CandidateOverview';
+import EmployerOverview from '../../pages/main/employers/dashboard/EmployerOverview';
 
 // interface User {
 //     email: string,
@@ -27,6 +27,8 @@ interface ActiveTabProps {
 }
 
 const Overview = ({ setActiveTab }: ActiveTabProps) => {
+
+    const user_type = "EM"
 
     const JobOverview: JobOverview[] = [
         {
@@ -74,7 +76,7 @@ const Overview = ({ setActiveTab }: ActiveTabProps) => {
             <div className='flex flex-col gap-4'>
                 <div className='space-y-3 relative'>
                     <div className='flex flex-col gap-2.5 items-start'>
-                        <h2 className='text-xl font-black'>Hello! </h2>
+                        <h2 className='text-xl font-black'>Hello! Gorden</h2>
                         <p className='text-slate-500'>Here is your daily activities and jobs</p>
                     </div>
 
@@ -100,44 +102,11 @@ const Overview = ({ setActiveTab }: ActiveTabProps) => {
                     </div>
                 </div>
 
-                <section className='relative'>
-                    <div className='space-y-5 flex justify-between items-center gap-2.5 flex-wrap'>
-                        <h2 className='font-black text-orange-500 text-md'>Recently Applied</h2>
-
-                        <button title='view more' onClick={() => setActiveTab("Applied Jobs")} className='cursor-pointer text-sm flex items-center gap-2.5 text-orange-500 hover:underline group '>
-                            <span>
-                                View all
-                            </span>
-
-                            <div>
-                                <ArrowRight size={20} className='group-hover:pl-1' />
-                            </div>
-                        </button>
-                    </div>
-
-                    <div className="py-4">
-                        <table className="w-full border-collapse rounded-lg overflow-scroll shadow-sm">
-                            <thead className="bg-gray-700 text-white">
-                                <tr>
-                                    <th className="px-4 py-3 text-left">Job</th>
-                                    <th className="px-4 py-3 text-left">Date Applied</th>
-                                    <th className="px-4 py-3 text-left">Status</th>
-                                    <th className="px-4 py-3 text-left">Action</th>
-                                </tr>
-                            </thead>
-
-                            <tbody className="divide-y divide-gray-200">
-                                {JobApplications.slice(0, 10).map((job) => {
-                                    return (
-                                        <JobApplicationCard key={job.id} job={job} />
-                                    )
-                                })}
-                            
-                            </tbody>
-                        </table>
-                    </div>
-
-                </section>
+                {user_type === "JS" ? (
+                    <CandidateOverview setActiveTab={setActiveTab} />
+                ) : (
+                    <EmployerOverview setActiveTab={setActiveTab} />
+                )}
             </div>
         </div>
     )

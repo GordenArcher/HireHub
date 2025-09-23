@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import Logo from "../../../components/ui/Logo";
 import AuthRight from "../../../components/ui/AuthRightUI";
 import { useCallback, useState } from "react";
-import { toast } from "react-toastify";
-import { v4 as uuidv4 } from "uuid";
-import type { Login } from "../../../types/auth/AuthTypes";
 import LoginAPI from "../containers/LoginAPI";
 import { useAuthStore } from "../../../stores/useAuthStore";
 

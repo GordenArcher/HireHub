@@ -3,7 +3,7 @@ import Landing from "../../pages/main/landing/Landing"
 import NavBar from "../../layouts/landing/NavBar"
 import Footer from "../../layouts/Footer"
 import FindJob from "../../pages/main/candidates/FindJob"
-import Dashboard from "../../pages/main/candidates/dashboard/dashboard"
+import Dashboard from "../../components/dashboard/dashboard"
 import JobDetails from "../../pages/main/landing/JobDetails"
 
 const HomeRoutes = () => {

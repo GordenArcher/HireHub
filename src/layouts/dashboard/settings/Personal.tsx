@@ -1,6 +1,6 @@
 import { Upload, FileText, PlusCircle, Save } from "lucide-react";
-import { EducationLevels, ExperienceRanges } from "../../../types/dashboard/candidateDashboard";
 import Button from "../../../components/ui/Button";
+import { ExperienceRanges, EducationLevels } from "../../../data/dashboard/Employer";
 
 const Personal = () => {
     return (

@@ -1,6 +1,6 @@
 import { Save } from "lucide-react"
-import { EducationLevels, ExperienceRanges, Nationalities } from "../../../types/dashboard/candidateDashboard"
 import Button from "../../../components/ui/Button"
+import { EducationLevels, ExperienceRanges, Nationalities } from "../../../data/dashboard/Employer"
 
 const Profile = () => {
     return (
@@ -12,8 +12,8 @@ const Profile = () => {
                             <span className="text-sm font-medium">Nationality</span>
 
                             <select title="nationality" name="nationality" id="nationality" className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in">
-                                <option>--- select --- </option>
-                                  {Nationalities.map((n, idx) => (
+                                <option> select... </option>
+                                    {Nationalities.map((n, idx) => (
                                         <option key={idx} value={n}>{n}</option>
                                     ))}
                             </select>
@@ -30,7 +30,7 @@ const Profile = () => {
                             <span className="text-sm font-medium">Gender</span>
 
                             <select title="gender" name="gender" id="gender" className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in">
-                                <option>--- select --- </option>
+                                <option> select... </option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
@@ -40,7 +40,7 @@ const Profile = () => {
                             <span className="text-sm font-medium">Education</span>
 
                             <select title="education" name="education" id="education" className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in">
-                                <option>--- select --- </option>
+                                <option> select...</option>
                                 {EducationLevels.map((e, idx) => (
                                     <option key={idx} value={e}>{e}</option>
                                 ))}
@@ -54,7 +54,7 @@ const Profile = () => {
                             <span className="text-sm font-medium">Experience</span>
 
                             <select title="experience" name="experience" id="experience" className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in">
-                                <option>--- select --- </option>
+                                <option> select... </option>
                                 {ExperienceRanges.map((exp, idx) => (
                                     <option key={idx} value={exp}>{exp}</option>
                                 ))}

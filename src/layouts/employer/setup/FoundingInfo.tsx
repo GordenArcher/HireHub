@@ -4,7 +4,7 @@ import type React from "react"
 import { IndustryTypes, OrganizationTypes, TeamSizes } from "../../../data/dashboard/Employer"
 
 interface Props {
-    setActiveTab: React.Dispatch<React.SetStateAction<string>>
+    setActiveTab?: React.Dispatch<React.SetStateAction<string>>
 }
 
 const FoundingInfo = ({ setActiveTab }: Props) => {

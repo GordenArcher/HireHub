@@ -22,8 +22,8 @@ const FindJob = () => {
 
             <div className="py-5 relative">
                 <div className='w-full pt-4 relative mb-4'>
-                    <div className='flex items-center justify-between relative bg-white border w-full h-[60px] border-orange-400 rounded shadow-xl'>
-                        <div className='w-full h-full relative px-3'>
+                    <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-3 bg-white border border-orange-400 rounded shadow-xl p-3'>
+                        <div className='w-full h-full relative px-3 md:w-1/2'>
                             <div className='flex h-full items-center justify-center gap-2'>
                                 <Search size={20} className='text-orange-500' />
 
@@ -33,9 +33,9 @@ const FindJob = () => {
                             </div>
                         </div>
 
-                        <div className='space-x-3 w-0.5 flex items-center justify-center h-10 bg-orange-500'></div>
+                        <div className='space-x-3 w-0.5 hidden md:flex items-center justify-center h-10 bg-orange-500'></div>
 
-                        <div className='w-full h-full relative px-3'>
+                        <div className='w-full h-full md:w-1/2 relative px-3'>
                             <div className='flex h-full items-center justify-between gap-2'>
                                 <div className='flex h-full items-center justify-center gap-2'>
                                     <MapPin size={20} className='text-orange-500' />
@@ -45,18 +45,20 @@ const FindJob = () => {
                                     </div>
                                 </div>
 
-                                <div className='flex h-full gap-2.5 py-2'>
-                                    <div className="h-full">
-                                        <button title='filter job' className='px-5 h-full bg-orange-500 text-white cursor-pointer rounded-lg'>
-                                            <SlidersIcon size={20} />
-                                        </button>
-                                    </div>
+                                <div className="flex gap-2 ml-auto">
+                                    <button
+                                        title="filter job"
+                                        className="px-4 py-2 bg-orange-500 text-white cursor-pointer rounded-lg flex items-center justify-center"
+                                    >
+                                        <SlidersIcon size={20} />
+                                    </button>
 
-                                    <div className="h-full">
-                                        <button title='find job' className='px-5 h-full bg-orange-500 text-white cursor-pointer rounded-lg'>
-                                            <Search size={20} />
-                                        </button>
-                                    </div>
+                                    <button
+                                        title="find job"
+                                        className="px-4 py-2 bg-orange-500 text-white cursor-pointer rounded-lg flex items-center justify-center"
+                                    >
+                                        <Search size={20} />
+                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -35,37 +35,41 @@ const Landing = () => {
                                 </p>
                             </div>
 
-                            <div className='w-full pt-4 relative mb-4'>
-                                <div className='flex items-center justify-between relative bg-white border w-full h-[70px] border-orange-400 rounded shadow-xl'>
-                                    <div className='w-full h-full relative px-3'>
-                                        <div className='flex h-full items-center justify-center gap-2'>
-                                            <Search size={20} className='text-orange-500' />
+                            <div className="w-full pt-4 relative mb-4">
+                                <div className="flex flex-col md:flex-row items-stretch bg-white border border-orange-400 rounded shadow-xl">
 
-                                            <div className='h-full'>
-                                                <input type="text" className='border-none h-full outline-none font-medium' placeholder='Job title, keyword...' name="search-job" id="search_job" />
-                                            </div>
-                                        </div>
+                                    <div className="flex items-center gap-2 w-full px-3 py-2">
+                                        <Search size={20} className="text-orange-500" />
+                                        <input
+                                            type="text"
+                                            className="flex-1 border-none outline-none font-medium"
+                                            placeholder="Job title, keyword..."
+                                            name="search-job"
+                                            id="search_job"
+                                        />
                                     </div>
 
-                                    <div className='space-x-3 w-0.5 flex items-center justify-center h-10 bg-orange-500'></div>
+                                    <div className="hidden md:flex items-center w-px bg-orange-500"></div>
 
-                                    <div className='w-full h-full relative px-3'>
-                                        <div className='flex h-full items-center gap-2'>
-                                            <div className='flex h-full items-center justify-center gap-2'>
-                                                <MapPin size={20} className='text-orange-500' />
-
-                                                <div className='h-full'>
-                                                    <input type="text" className='border-none h-full outline-none font-medium' placeholder='Your location' name="search-location" id="search_location" />
-                                                </div>
-                                            </div>
-
-                                            <div className='flex h-full py-2'>
-                                                <button title='find job' className='px-5 py-1 bg-orange-500 text-white cursor-pointer rounded-lg'>Find</button>
-                                            </div>
-                                        </div>
+                                    <div className="flex items-center gap-2 w-full px-3 py-2">
+                                        <MapPin size={20} className="text-orange-500" />
+                                        <input
+                                            type="text"
+                                            className="flex-1 border-none outline-none font-medium"
+                                            placeholder="Your location"
+                                            name="search-location"
+                                            id="search_location"
+                                        />
+                                        <button
+                                            title="find job"
+                                            className="px-5 py-2 bg-orange-500 text-white cursor-pointer rounded-lg whitespace-nowrap"
+                                        >
+                                            Find
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+
 
                             <div className='space-y-2 leading-normal text-sm text-slate-800'>
                                 <span className='text-slate-500'>Suggestion</span>: {" "}

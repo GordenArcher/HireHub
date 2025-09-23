@@ -1,12 +1,17 @@
 import { Bounce, ToastContainer } from "react-toastify"
 import Loading from "./components/Loading/Loading"
 
-import { lazy, Suspense } from "react"
+import { lazy, Suspense, useEffect } from "react"
+import { getuser } from "./services/api"
 
 const MainRoutes = lazy(() => import("./routes/mainroutes/routes")) 
 
 function App() {
   const loading = false
+
+  useEffect(() => {
+    getuser()
+  }, [])
 
   if(loading) return <Loading />
 
