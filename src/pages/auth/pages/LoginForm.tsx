@@ -1,14 +1,16 @@
 import { ArrowRight, Loader } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../../components/ui/Logo";
 import AuthRight from "../../../components/ui/AuthRightUI";
 import { useCallback, useState } from "react";
 import LoginAPI from "../containers/LoginAPI";
 import { useAuthStore } from "../../../stores/useAuthStore";
+import { getuser } from "../../../services/api";
 
 
 const LoginForm = () => {
-    const { setAuthenticated } = useAuthStore()
+    const { setAuthenticated, setUser } = useAuthStore()
+    const navigate = useNavigate()
 
     const [formaData, setFormData] = useState({
         email: "",
@@ -22,10 +24,18 @@ const LoginForm = () => {
         const response = await handleLogin(formaData)
 
         if(response){
+            const res = await getuser()
+            if(res){
+                setUser(res)
+            }
             setAuthenticated(response?.authenticated)
+
+            setTimeout(() => {
+                navigate("/")
+            }, 2000)
         }
 
-    }, [formaData, handleLogin])
+    }, [formaData, handleLogin, setAuthenticated, setUser])
 
 
     // const loginUser = () => {

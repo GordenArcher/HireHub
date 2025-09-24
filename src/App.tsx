@@ -1,26 +1,19 @@
 import { Bounce, ToastContainer } from "react-toastify"
 import Loading from "./components/Loading/Loading"
+import { useAuthStore } from "./stores/useAuthStore"
 
-import { lazy, Suspense, useEffect } from "react"
-import { getuser } from "./services/api"
-
-const MainRoutes = lazy(() => import("./routes/mainroutes/routes")) 
+import MainRoutes from "./routes/mainroutes/routes"
 
 function App() {
-  const loading = false
+  const { isGettingUser, isGettingAuth} = useAuthStore()
 
-  useEffect(() => {
-    getuser()
-  }, [])
+  console.log(isGettingUser)
 
-  if(loading) return <Loading />
+  if(isGettingAuth || isGettingUser) return <Loading />
 
   return (
     <section className="w-full h-full relative">
-      <Suspense fallback={ <Loading />} >
-        <MainRoutes />
-      </Suspense>
-      
+      <MainRoutes />
 
       <ToastContainer
         position="top-right"

@@ -10,10 +10,14 @@ export function handleApiError(error: AxiosError<ErrorResponse>) {
 
     if (errorData?.errors) {
         
-        Object.entries(errorData.errors).forEach(([field, messages]) => {
-            messages.forEach((msg) => {
-                toast.error(`${capitalize(field)}: ${msg}`);
-            });
+          Object.entries(errorData.errors).forEach(([field, messages]) => {
+            if (Array.isArray(messages)) {
+                messages.forEach((msg) => {
+                    toast.error(`${capitalize(field)}: ${msg}`);
+                });
+            } else {
+                toast.error(`${capitalize(field)}: ${messages}`);
+            }
         });
     } else {
         toast.error(errorData?.message || "Something went wrong");

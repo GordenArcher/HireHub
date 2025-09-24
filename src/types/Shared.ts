@@ -61,3 +61,12 @@ export interface ErrorResponse {
   message: string;
   errors?: ValidationErrors;
 }
+
+export interface Socials {
+  facebook : string | undefined
+  instagram : string | undefined
+  linkedin : string | undefined
+  twitter : string | undefined
+  youtube : string | undefined
+  personal_website: string | undefined;
+}

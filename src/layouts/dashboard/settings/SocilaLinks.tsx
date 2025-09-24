@@ -1,7 +1,42 @@
-import { Facebook, Globe, Instagram, Save, Twitter } from "lucide-react"
+import { Facebook, Globe, Instagram, Loader, Save, Twitter } from "lucide-react"
 import Button from "../../../components/ui/Button"
+import { useState } from "react"
+import axiosClient from "../../../utils/axiosClient"
+import { get_socials } from "../../../services/api"
+import { toast } from "react-toastify"
+import { useAuthStore } from "../../../stores/useAuthStore"
 
 const SocilaLinks = () => {
+    const [Issaving, setIsSaving] = useState(false)
+    const { setSocials, socials } = useAuthStore()
+
+    const [formData, setFormData] = useState({
+        facebook : socials?.facebook,
+        twitter : socials?.twitter,
+        instagram : socials?.instagram,
+        personal_website : socials?.personal_website,
+    })
+
+    const SaveLink = async () => {
+
+        setIsSaving(true)
+
+        try {
+            const res = await axiosClient.post("/socials/", formData, {headers: { "Content-Type": "multipart/form-data" }});
+            if(res){
+                const response = await get_socials()
+                toast.success(res.data.message || "success")
+                if(response){
+                    setSocials(response)
+                }
+            }
+        } catch (err) {
+            console.error("Error saving:", err);
+        }finally{
+            setIsSaving(false)
+        }
+    }
+
     return (
         <div className="w-full h-full relative">
             <div className="flex flex-col gap-3.5">
@@ -17,7 +52,7 @@ const SocilaLinks = () => {
                         </div>
 
                         <div className="w-full h-full">
-                            <input className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
+                            <input value={formData.facebook} onChange={(e) => setFormData({...formData, facebook: e.target.value})}  className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
                         </div>
                     </div>
                 </div>
@@ -34,7 +69,7 @@ const SocilaLinks = () => {
                         </div>
 
                         <div className="w-full h-full">
-                            <input className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
+                            <input value={formData.twitter} onChange={(e) => setFormData({...formData, twitter: e.target.value})} className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
                         </div>
                     </div>
                 </div>
@@ -51,7 +86,7 @@ const SocilaLinks = () => {
                         </div>
 
                         <div className="w-full h-full">
-                            <input className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
+                            <input value={formData.instagram} onChange={(e) => setFormData({...formData, instagram: e.target.value})} className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
                         </div>
                     </div>
                 </div>
@@ -68,7 +103,7 @@ const SocilaLinks = () => {
                         </div>
 
                         <div className="w-full h-full">
-                            <input className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
+                            <input value={formData.personal_website} onChange={(e) => setFormData({...formData, personal_website: e.target.value})} className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
                         </div>
                     </div>
                 </div>
@@ -76,12 +111,20 @@ const SocilaLinks = () => {
             </div>
 
             <div className="items-start py-4 relative">
-                <Button title="save">
+                <Button title="save" handleClick={SaveLink}>
                     {
-                        <>
-                            <Save size={20} />
-                            <span className="font-normal">Save</span>
-                        </>
+                        Issaving ? (
+                            <>
+                                <Loader className="animate-spin" size={20} />
+                                <span className="font-normal">Saving...</span>
+                            </>
+                        ) : (
+                            <>
+                                <Save size={20} />
+                                <span className="font-normal">Save</span>
+                            </>
+                        )
+                        
                     }
                 </Button>
             </div>

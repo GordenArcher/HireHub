@@ -13,30 +13,30 @@ const axiosClient = axios.create({
 let isRefreshing = false;
 // let failedQueue = [];
 
-// // const processQueue = (error, token = null) => {
-// //   failedQueue.forEach(prom => {
-// //     if (error) {
-// //       prom.reject(error);
-// //     } else {
-// //       prom.resolve(token);
-// //     }
-// //   });
-// //   failedQueue = [];
-// // };
+// const processQueue = (error, token = null) => {
+//   failedQueue.forEach(prom => {
+//     if (error) {
+//       prom.reject(error);
+//     } else {
+//       prom.resolve(token);
+//     }
+//   });
+//   failedQueue = [];
+// };
 
 axiosClient.interceptors.response.use(
     response => response,
     async error => {
         const originalRequest = error.config;
 
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        if (error.response?.status === 401 || error.response?.status === 403 && !originalRequest._retry) {
         originalRequest._retry = true;
 
         try {
             if (!isRefreshing) {
-            isRefreshing = true;
-            await axiosClient.post("refresh/");
-            isRefreshing = false;
+                isRefreshing = true;
+                await axiosClient.post("refresh/");
+                isRefreshing = false;
             }
             return axiosClient(originalRequest);
         } catch (err) {

@@ -1,8 +1,72 @@
-import { Upload, FileText, PlusCircle, Save } from "lucide-react";
+import { Upload, FileText, PlusCircle, Save, Loader } from "lucide-react";
 import Button from "../../../components/ui/Button";
-import { ExperienceRanges, EducationLevels } from "../../../data/dashboard/Employer";
+import { useAuthStore } from "../../../stores/useAuthStore";
+import { useRef, useState } from "react";
+import axiosClient from "../../../utils/axiosClient";
+import { getuser } from "../../../services/api";
+import { toast } from "react-toastify";
 
 const Personal = () => {
+    const { user, socials, setUser } = useAuthStore()
+
+    const [Issaving, setIsSaving] = useState(false)
+    const [formData, setFormData] = useState({
+        profile_image : `http://localhost:8000${user?.profile_image}`,
+        full_name : user?.full_name,
+        experience : "",
+        education : "",
+        Website : socials?.personal_website
+    })
+
+    const [preview, setPreview] = useState<string | null>(formData?.profile_image || null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setFormData({ ...formData, profile_image: file });
+
+            const url = URL.createObjectURL(file);
+            setPreview(url);
+        }
+    };
+
+    const handleClick = () => {
+        fileInputRef.current?.click();
+    };
+    
+
+
+    const handleSubmit = async () => {
+        const data = new FormData();
+        data.append("full_name", formData.full_name);
+        data.append("experience", formData.experience);
+        data.append("education", formData.education);
+        data.append("website", formData.Website);
+        if (formData.profile_image instanceof File) {
+            data.append("profile_image", formData.profile_image);
+        }
+
+        setIsSaving(true)
+
+        try {
+            const res = await axiosClient.post("/profile_save/", data, {headers: { "Content-Type": "multipart/form-data" }});
+            if(res){
+                const response = await getuser()
+                toast.success(res.data.message || "success")
+                if(response){
+                    setUser(response)
+                }
+            }
+            console.log("Saved:", res.data);
+        } catch (err) {
+            console.error("Error uploading:", err);
+        }finally{
+            setIsSaving(false)
+        }
+    };
+
     return (
         <div className="w-full h-full relative p-6">
             <div className="h-full space-y-6">
@@ -11,58 +75,64 @@ const Personal = () => {
                 </div>
 
                 <div className="grid grid-cols-[30%_70%] h-full max-md:grid-cols-1 items-start gap-2.5">
-                    <div className="w-full h-full relative ">
-                        <>
-                            <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-40 cursor-pointer hover:bg-gray-50 transition">
+                    <div
+                        onClick={handleClick}
+                        className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-40 cursor-pointer hover:bg-gray-50 transition"
+                    >
+                        {preview ? (
+                            <img
+                                src={preview}
+                                alt="Profile Preview"
+                                className="h-full w-full object-cover rounded-lg"
+                            />
+                        ) : (
+                            <>
                                 <Upload size={28} className="text-gray-500" />
                                 <p className="text-sm text-gray-600">Browse photo or drop here</p>
                                 <p className="text-xs text-gray-400">Max size 5MB</p>
-                            </div>
-                        </>
+                            </>
+                        )}
+
+                        <input
+                            title="upload"
+                            type="file"
+                            accept="image/*"
+                            ref={fileInputRef}
+                            className="hidden"
+                            onChange={handleFileChange}
+                        />
                     </div>
 
                     <div className="w-full h-full relative">
-                        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="w-full grid grid-cols-1 gap-6">
                             <div className="flex flex-col gap-1.5">
                                 <label htmlFor="full_name">Full Name</label>
-                                <input id="full_name" type="text" className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in" />
-                            </div>
-
-                            <div className="w-full relative flex flex-col gap-2">
-                                <span className="text-sm font-medium">Experience</span>
-    
-                                <select title="experience" name="experience" id="experience" className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in">
-                                    <option>--- select --- </option>
-                                        {ExperienceRanges.map((n, idx) => (
-                                            <option key={idx} value={n}>{n}</option>
-                                        ))}
-                                </select>
-                            </div>
-
-                            <div className="w-full relative flex flex-col gap-2">
-                                <span className="text-sm font-medium">Education</span>
-    
-                                <select title="education" name="education" id="education" className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in">
-                                    <option>--- select --- </option>
-                                        {EducationLevels.map((n, idx) => (
-                                            <option key={idx} value={n}>{n}</option>
-                                        ))}
-                                </select>
+                                <input id="full_name" value={formData.full_name} onChange={(e) =>setFormData({ ...formData, full_name: e.target.value })} type="text" className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in" />
                             </div>
 
                             <div className="flex flex-col gap-1.5">
                                 <label htmlFor="website">Website</label>
-                                <input placeholder="Website url" id="website" type="text" className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in" />
+                                <input placeholder="Website url" value={formData.Website} onChange={(e) =>setFormData({ ...formData, Website: e.target.value })}  id="website" type="text" className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in" />
                             </div>
                         </div>
 
                         <div className="items-start py-4 relative">
-                            <Button title="save" >
+                            <Button title="save" handleClick={handleSubmit} >
                                 {
-                                    <>
-                                        <Save size={20} />
-                                        <span className="font-normal">Save</span>
-                                    </>
+                                    Issaving 
+                                    ? 
+                                    (
+                                        <>
+                                            <Loader className="animate-spin" size={20} />
+                                            <span className="font-normal">Saving...</span>
+                                        </>
+                                    ) :
+                                    (
+                                        <>
+                                            <Save size={20} />
+                                            <span className="font-normal">Save</span>
+                                        </>
+                                    )
                                 }
                             </Button>
                         </div>

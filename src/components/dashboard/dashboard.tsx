@@ -1,4 +1,4 @@
-import { Bookmark, BriefcaseBusiness, HomeIcon, LogOut, PlusCircle, Settings, SidebarClose, SidebarOpen } from "lucide-react"
+import { Bookmark, BriefcaseBusiness, HomeIcon, Loader, LogOut, PlusCircle, Settings, SidebarClose, SidebarOpen } from "lucide-react"
 import type { LucideIcon } from "lucide-react";
 import { useEffect, useState } from "react"
 import Overview from "./Overview";
@@ -9,6 +9,9 @@ import PostJob from "../../pages/main/employers/dashboard/PostJob";
 import JobsPosted from "../../pages/main/employers/dashboard/JobsPosted";
 import SavedCandidate from "../../pages/main/employers/dashboard/SavedCandidate";
 import EmployerSettings from "../../layouts/employer/dashboard/Settings/EmployerSettings";
+import { useAuthStore } from "../../stores/useAuthStore";
+import { logout } from "../../services/api";
+import { toast } from "react-toastify";
 
 interface SideNav {
     id: number,
@@ -20,7 +23,10 @@ interface SideNav {
 const Dashboard = () => {
     const [activeTab, setActiveTab] = useState<string>("Overview")
     const [showSide, setShowSide] = useState<boolean>(true)
-    const user_type = "EM"
+    const [logingout, setlogingout] = useState<boolean>(false)
+    const { user, isAuthenticated } = useAuthStore()
+
+    const user_type = user?.user_type
 
     useEffect(() => {
         const getWidth = () => {
@@ -87,6 +93,21 @@ const Dashboard = () => {
         },
     ]
 
+    const LogoutUser = async () => {
+        setlogingout(true)
+        try {
+            const response = await logout()
+            if(response){
+                toast.success(response.message)
+            }
+        } catch (error) {
+            console.error(error)
+        }finally{
+            setlogingout(false)
+        }
+        
+    }
+
     const user_Dashboard = SideNav.filter((nav) => nav.type === user_type || nav.type === "both")
 
     return (
@@ -94,7 +115,7 @@ const Dashboard = () => {
             <div className="flex transition duration-200 ease-in w-full h-full gap-1.5">
                 <aside className={`py-6 transform transition duration-200 ease-in ${showSide ? 'w-80' : '-translate-x-100 w-0 '} max-md:absolute max-md:bg-white max-md:z-9 max-md:p-3  h-full relative`}>
                     <div className="flex items-center justify-between">
-                        <h3 className="capitalize font-black text-sm">Candidate dashboard</h3>
+                        <h3 className="capitalize font-black text-sm"> {user_type === "JS" ? 'Candidate' : "Employer"}  dashboard</h3>
 
                         <div className="py-4 hidden max-md:block">
                             <button onClick={() => setShowSide(!showSide)} title={showSide ? 'hide' : 'show'} className="text-orange-500 w-10 h-10 flex items-center justify-center hover:bg-slate-200 rounded-full cursor-pointer" >
@@ -127,17 +148,33 @@ const Dashboard = () => {
                             </ul>
                         </div>
 
-                        <div className="space-y-1.5 transition duration-200 ease-in">
-                            <div className="relative px-5 max-md:px-2">
-                                <button title="logout" className="w-full px-5 rounded py-3 cursor-pointer transition duration-150 ease-in hover:bg-red-500/50 group">
-                                    <div className="flex items-center gap-2.5 text-red-500 group-hover:text-white">
-                                        <LogOut size={20} />
+                        {isAuthenticated && (
+                            <div className="space-y-1.5 transition duration-200 ease-in">
+                                <div className="relative px-5 max-md:px-2">
+                                    <button onClick={LogoutUser} title="logout" className="w-full px-5 rounded py-3 cursor-pointer transition duration-150 ease-in hover:bg-red-500/50 group">
+                                        <div className="flex items-center gap-2.5 text-red-500 group-hover:text-white">
+                                            {logingout ? (
+                                                <>
+                                                    <Loader className="animate-spin" />
+                                                    <span>Loginout...</span>
+                                                </>
+                                                
+                                            ) : (
+                                                <>
+                                                    <LogOut size={20} />
 
-                                        <span>Logout</span>
-                                    </div>
-                                </button>
+                                                    <span>Logout</span>
+                                                </>
+                                                
+                                            )}
+                                            
+                                        </div>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        )}
+
+                        
                     </div>
                 </aside>
 

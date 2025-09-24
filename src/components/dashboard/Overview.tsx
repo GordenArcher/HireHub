@@ -4,6 +4,7 @@ import { BookmarkIcon, BriefcaseBusiness, type LucideIcon } from "lucide-react";
 import type React from 'react';
 import CandidateOverview from '../../pages/main/candidates/dashboard/CandidateOverview';
 import EmployerOverview from '../../pages/main/employers/dashboard/EmployerOverview';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 // interface User {
 //     email: string,
@@ -28,7 +29,9 @@ interface ActiveTabProps {
 
 const Overview = ({ setActiveTab }: ActiveTabProps) => {
 
-    const user_type = "EM"
+    const { user } = useAuthStore()
+
+    const user_type = user?.user_type
 
     const JobOverview: JobOverview[] = [
         {
@@ -76,7 +79,7 @@ const Overview = ({ setActiveTab }: ActiveTabProps) => {
             <div className='flex flex-col gap-4'>
                 <div className='space-y-3 relative'>
                     <div className='flex flex-col gap-2.5 items-start'>
-                        <h2 className='text-xl font-black'>Hello! Gorden</h2>
+                        <h2 className='text-xl font-black'>Hello! {user?.full_name}</h2>
                         <p className='text-slate-500'>Here is your daily activities and jobs</p>
                     </div>
 

@@ -1,34 +1,49 @@
 import { useState } from "react"
 import Logo from "../../components/ui/Logo"
 import { Link, NavLink } from "react-router-dom"
+import { useAuthStore } from "../../stores/useAuthStore"
 
 interface NavLinks {
     id: number,
     label: string,
-    link: string
+    link: string,
+    type?: "JS" | null
 }
 
 const NavBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [is_authenticated] = useState<boolean>(false)
+    const { isAuthenticated, user } = useAuthStore()
+
+    console.log(user)
 
     const NavLinks: NavLinks[] = [
         {
             id: 1,
             label: "Home",
-            link: "/"
+            link: "/",
+            type: null
         },
         {
             id: 2,
             label: "Find Job",
-            link: '/find-job'
+            link: '/find-job',
+            type: "JS"
         },
         {
             id: 3,
             label: "Dashboard",
-            link: '/me/dashboard'
+            link: '/me/dashboard',
+            type: null
         },
     ]
+
+    const FilterNav = NavLinks.filter((nav) => {
+        if (nav.type === null) return true;
+
+        return nav.type === user?.user_type;
+    });
+
+
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -45,7 +60,7 @@ const NavBar = () => {
 
                         <div className="hidden md:block">
                             <ul className="flex items-center gap-3.5 relative">
-                                {NavLinks.map((nav) => (
+                                {FilterNav.map((nav) => (
                                     <li key={nav.id} className="relative">
                                         <NavLink
                                             to={nav.link}
@@ -71,21 +86,39 @@ const NavBar = () => {
 
                         <div className="hidden md:flex relative">
                             <div className="flex items-center gap-2.5">
-                                {is_authenticated ? (
-                                    <div></div>
+                                
+                                <div className="relative">
+                                    <Link to={"/post/job"} className="px-6 py-3 rounded-xl bg-orange-600 text-white border cursor-pointer hover:bg-transparent hover:text-orange-600 hover:border-orange-600 duration-75 transition ease-in">Post a Job</Link>
+                                </div>
+
+                                {isAuthenticated ? (
+                                    <div>
+                                        {user?.profile_image ? (
+                                            <img className="w-12 h-12 rounded-full" src={user?.profile_image} alt={user?.user?.username} />
+                                        ) : (
+                                            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-orange-600">
+                                                <span className="capitalize text-xl text-white font-bold">{user?.user?.username?.[0]}</span>
+                                            </div>
+                                        )}
+                                    </div>
                                 ) : (
                                     <div className="relative">
                                         <Link to={"/auth/login"} className="px-6 py-3 border border-orange-600 rounded-xl text-orange-500 cursor-pointer hover:bg-orange-600 hover:text-white duration-75 transition ease-in">Login</Link>
                                     </div>
                                 )}
-
-                                <div className="relative">
-                                    <Link to={"/post/job"} className="px-6 py-3 rounded-xl bg-orange-600 text-white border cursor-pointer hover:bg-transparent hover:text-orange-600 hover:border-orange-600 duration-75 transition ease-in">Post a Job</Link>
-                                </div>
                             </div>
                         </div>
 
-                        <div className="md:hidden flex items-center">
+                        <div className="md:hidden flex items-center gap-2">
+                            <div>
+                                {user?.profile_image ? (
+                                    <img src={user?.profile_image} alt={user?.user?.username} />
+                                ) : (
+                                    <div className="w-10 h-10 rounded-full bg-orange-600"></div>
+                                )}
+                                
+                            </div>
+
                             <button
                                 onClick={toggleMenu}
                                 className="text-orange-600 focus:outline-none"
@@ -101,6 +134,7 @@ const NavBar = () => {
                                     </svg>
                                 )}
                             </button>
+
                         </div>
                     </div>
                 </div>
@@ -125,9 +159,18 @@ const NavBar = () => {
                         
                         <div className="mt-6 pt-4 border-t border-gray-300">
                             <div className="flex flex-col space-y-4">
-                                {is_authenticated ? (
-                                    <div></div>
-                                ) : (
+                                
+                                <div className="relative">
+                                    <Link
+                                        to={"/post/job"} 
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="block w-full text-center px-6 py-3 rounded-xl bg-orange-600 text-white border cursor-pointer hover:bg-transparent hover:text-orange-600 hover:border-orange-600 duration-75 transition ease-in"
+                                    >
+                                        Post a Job
+                                    </Link>
+                                </div>
+
+                                {!isAuthenticated &&
                                     <div className="relative">
                                         <Link 
                                             to={"/auth/login"} 
@@ -137,17 +180,7 @@ const NavBar = () => {
                                             Login
                                         </Link>
                                     </div>
-                                )}
-
-                                <div className="relative">
-                                    <Link 
-                                        to={"/post/job"} 
-                                        onClick={() => setIsMenuOpen(false)}
-                                        className="block w-full text-center px-6 py-3 rounded-xl bg-orange-600 text-white border cursor-pointer hover:bg-transparent hover:text-orange-600 hover:border-orange-600 duration-75 transition ease-in"
-                                    >
-                                        Post a Job
-                                    </Link>
-                                </div>
+                                }
                             </div>
                         </div>
                     </div>
