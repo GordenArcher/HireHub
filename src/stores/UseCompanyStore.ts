@@ -28,51 +28,22 @@ import { get_company } from "../services/api";
 interface CompanyState {
     company: null
     setCompany: (company: | null) => void;
+    fetchCompany: () => Promise<void>
 }
 
-export const UseCompanyStore = create<CompanyState>((set) => {
+export const UseCompanyStore = create<CompanyState>((set) => ({
+    company: null,
+    setCompany: (company) => set({ company }),
 
-    // (async () => {
-    //         set({ isGettingAuth: true });
-    //     try {
-    //         const res = await get_auth();
-    //         set({ isAuthenticated: res?.auth ?? false });
-    //     } catch (err) {
-    //         console.error("Auth check failed", err);
-    //         set({ isAuthenticated: false });
-    //     } finally {
-    //         set({ isGettingAuth: false });
-    //     }
-    // })();
-
-    (async () => {
+    fetchCompany: async () => {
         try {
+
             const res = await get_company();
             if (res) set({ company: res });
         } catch (err) {
             console.error("User fetch failed", err);
             set({ company: null });
         } 
-    })();
+    }
 
-    // (async () => {
-    //     try {
-    //         const res = await get_socials();
-    //         if (res) set({ socials: res });
-    //     } catch (err) {
-    //         console.error("User socials failed", err);
-    //     }
-    // })();
-
-    return {
-        company: null,
-        // socials: null,
-        // isAuthenticated: false,
-        // isGettingAuth: false,
-        // isGettingUser: false,
-        setCompany: (company) => set({ company }),
-        // setAuthenticated: (value) => set({ isAuthenticated: value }),
-        // setIsGettingAuth: (value) => set({ isGettingAuth: value }),
-        // setIsGettingUser: (value) => set({ isGettingUser: value }),
-    };
-});
+}));

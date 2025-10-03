@@ -1,33 +1,25 @@
-import { ArrowRight, Loader, UploadCloud, X } from "lucide-react"
+import { ArrowRight, UploadCloud, X } from "lucide-react"
 import Button from "../../../components/ui/Button"
 import { useState, useRef } from "react"
-import { toast } from "react-toastify"
-import axiosClient from "../../../utils/axiosClient"
-import { UseCompanyStore } from "../../../stores/UseCompanyStore"
 
-interface Props {
-    setActiveTab: React.Dispatch<React.SetStateAction<string>>
-}
 
 interface CompanyForm {
-    name: string
-    about: string
-    logo: File | null
-    banner: File | null
+    name: string;
+    about: string;
+    logo: File | null;
+    banner: File | null;
 }
 
-const CompanyInfo = ({ setActiveTab }: Props) => {
-    const { company } = UseCompanyStore()
-    const [form, setForm] = useState<CompanyForm>({
-        name: "",
-        about: "",
-        logo: null,
-        banner: null
-    })
+interface Props {
+    setActiveTab: React.Dispatch<React.SetStateAction<string>>;
+    setForm: React.Dispatch<React.SetStateAction<CompanyForm>>;
+    form: CompanyForm;
+}
+
+const CompanyInfo = ({ setActiveTab, setForm, form }: Props) => {
     
-    const [IsSubmitting, setIsSubmitting] = useState<boolean>(false)
-    const [logoPreview, setLogoPreview] = useState<string>("")
-    const [bannerPreview, setBannerPreview] = useState<string>("")
+    const [logoPreview, setLogoPreview] = useState<string>(form?.logo?.name)
+    const [bannerPreview, setBannerPreview] = useState<string>(form?.banner?.name)
     const logoInputRef = useRef<HTMLInputElement>(null)
     const bannerInputRef = useRef<HTMLInputElement>(null)
 
@@ -63,6 +55,10 @@ const CompanyInfo = ({ setActiveTab }: Props) => {
         reader.readAsDataURL(file)
     }
 
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault()
+    }
+
     const removeImage = (type: 'logo' | 'banner') => {
         setForm(prev => ({ ...prev, [type]: null }))
         if (type === 'logo') {
@@ -87,48 +83,6 @@ const CompanyInfo = ({ setActiveTab }: Props) => {
         }
     }
 
-    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault()
-    }
-
-    const handleSubmit = async () => {
-        
-        if (!form.name.trim()) {
-            toast.error('Please enter company name')
-            return
-        }
-
-        if (!form.about.trim()) {
-            toast.error('Please enter company description')
-            return
-        }
-
-        const formData = new FormData()
-        formData.append('name', form.name)
-        formData.append('about', form.about)
-        if (form.logo) formData.append('logo', form.logo)
-        if (form.banner) formData.append('banner', form.banner)
-
-        setIsSubmitting(true)
-
-        try {
-            const response = await axiosClient.post("save_company/", formData)
-
-            if (response) {
-                const result = response.data
-                toast.success(result.message || "success")
-                console.log('Company info saved successfully:', result)
-                setActiveTab("founding-info")
-            }
-        } catch (error) {
-            const errorResult = error.response.data
-            toast.error(errorResult?.message || "Error saving company info")
-            console.error('Error saving company info:', error)
-        }finally{
-            setIsSubmitting(false)
-        }
-    }
-
     return (
         <div className="w-full relative h-full">
             <div>
@@ -138,9 +92,11 @@ const CompanyInfo = ({ setActiveTab }: Props) => {
 
                         <div className="w-full relative grid grid-cols-[25%_75%] max-md:grid-cols-1 gap-4">
                             <div className="w-full space-y-2">
-                                <h5 className="font-medium">Upload Logo</h5>
+                                <label htmlFor="logo" className="font-medium">Upload Logo</label>
                                 <input
                                     type="file"
+                                    id="logo"
+                                    name="logo"
                                     ref={logoInputRef}
                                     onChange={(e) => handleFileChange(e, 'logo')}
                                     accept="image/*"
@@ -189,9 +145,11 @@ const CompanyInfo = ({ setActiveTab }: Props) => {
                             </div>
 
                             <div className="w-full space-y-2">
-                                <h5 className="font-medium">Banner Image</h5>
+                                <label htmlFor="banner" className="font-medium">Banner Image</label>
                                 <input
                                     type="file"
+                                    id="banner"
+                                    name="banner"
                                     ref={bannerInputRef}
                                     onChange={(e) => handleFileChange(e, 'banner')}
                                     accept="image/*"
@@ -277,20 +235,13 @@ const CompanyInfo = ({ setActiveTab }: Props) => {
                             </div>
 
                             <div className="mt-5">
-                                <Button handleClick={handleSubmit}  title="save">
-                                    {
-                                        IsSubmitting ? (
-                                            <>
-                                                <Loader className="animate-spin" />
-                                                <span>Saving...</span>
-                                            </>
-                                        ) : (
-                                        <>
-                                            <span>Save & Next</span>
-                                            <ArrowRight />
-                                        </> 
-                                        )
-                                      }
+                                <Button handleClick={() => setActiveTab("founding-info")}  title="save">
+                                    
+                                    <>
+                                        <span>Save & Next</span>
+                                        <ArrowRight />
+                                    </> 
+                                        
                                 </Button>
                             </div>
                         </div>

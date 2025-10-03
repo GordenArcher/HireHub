@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom"
 import LoginForm from "../../pages/auth/pages/LoginForm"
 import RegisterForm from "../../pages/auth/pages/RegisterForm"
 import EmailVerification from "../../pages/auth/pages/EmailVerification"
@@ -6,6 +6,7 @@ import ForgetPassword from "../../pages/auth/pages/ForgetPassword"
 import SetUp from "../../pages/main/employers/SetUp"
 import SetupComplete from "../../pages/main/employers/SetUpComplete"
 import { useAuthStore } from "../../stores/useAuthStore"
+import ActivateAccount from "../../pages/auth/pages/ActivateAccount"
 
 const AuthRoutes = () => {
     const { isAuthenticated } = useAuthStore()
@@ -23,10 +24,13 @@ const AuthRoutes = () => {
                             <Route path="login" element={ <LoginForm />} />
                             <Route path="register" element={ <RegisterForm />} />
                             <Route path="verify-email" element={ <EmailVerification />} />
+                            <Route path="activate" element={ <ActivateAccount />} />
                             <Route path="reset-password" element={ <ForgetPassword />} />
                         </>
                     )}
-                    
+
+
+                    <Route path="*" element={ <Navigate to={"/"} />} />
 
                     
                 </Routes>

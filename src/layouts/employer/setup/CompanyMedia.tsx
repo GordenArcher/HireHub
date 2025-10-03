@@ -1,11 +1,24 @@
-import { Facebook, Twitter, Instagram, Youtube, ArrowRight } from "lucide-react"
+import { Facebook, Twitter, Instagram, ArrowRight, Linkedin } from "lucide-react"
 import Button from "../../../components/ui/Button"
 
+interface Media {
+    facebook: string
+    twitter: string
+    linkedin: string
+    instagram: string
+}
 interface Props {
-    setActiveTab: React.Dispatch<React.SetStateAction<string>>
+    setActiveTab: React.Dispatch<React.SetStateAction<string>>;
+    setForm: React.Dispatch<React.SetStateAction<Media>>;
+    form: Media;
 }
 
-const CompanyMedia = ({ setActiveTab }: Props) => {
+const CompanyMedia = ({ setActiveTab, setForm, form }: Props) => {
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target
+        setForm(prev => ({ ...prev, [name]: value }))
+    }
 
     return (
         <div className="w-full h-full relative">
@@ -23,7 +36,7 @@ const CompanyMedia = ({ setActiveTab }: Props) => {
                             </div>
 
                             <div className="w-full h-full">
-                                <input className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
+                                <input value={form.facebook} onChange={handleInputChange} name="facebook" className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
                             </div>
                         </div>
                     </div>
@@ -40,7 +53,7 @@ const CompanyMedia = ({ setActiveTab }: Props) => {
                             </div>
 
                             <div className="w-full h-full">
-                                <input className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
+                                <input value={form.twitter} onChange={handleInputChange} name="twitter"  className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
                             </div>
                         </div>
                     </div>
@@ -57,7 +70,7 @@ const CompanyMedia = ({ setActiveTab }: Props) => {
                             </div>
 
                             <div className="w-full h-full">
-                                <input className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
+                                <input value={form.instagram} onChange={handleInputChange} name="instagram"  className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
                             </div>
                         </div>
                     </div>
@@ -68,13 +81,13 @@ const CompanyMedia = ({ setActiveTab }: Props) => {
                         <div className="w-full flex px-3 py-2 items-center gap-2 border border-orange-400 hover:border-orange-500 duration-200 ease-in transition rounded h-16">
                             <div className="w-[20%] flex items-start gap-2 border-r border-slate-700">
                                 <div className="flex items-center gap-1.5 text-red-600">
-                                    <Youtube size={20} />
+                                    <Linkedin size={20} />
                                     <span className="text-sm font-black max-md:hidden">Youtube</span>
                                 </div>
                             </div>
 
                             <div className="w-full h-full">
-                                <input className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
+                                <input value={form.linkedin} onChange={handleInputChange} name="linkedin"  className="w-full h-full outline-none p-1" placeholder="profile link/url..." type="text" />
                             </div>
                         </div>
                     </div>
@@ -84,7 +97,7 @@ const CompanyMedia = ({ setActiveTab }: Props) => {
 
             <div className="flex items-center gap-3.5 py-7">
                 <Button handleClick={() => setActiveTab("founding-info")} title="previous" bgcolor="bg-gray-200" color="text-orange-500" >
-                    {"Previous"}
+                    Previous
                 </Button>
 
                 <Button title="save & next" handleClick={() => setActiveTab("contact")}>

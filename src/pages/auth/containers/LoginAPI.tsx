@@ -7,6 +7,7 @@ import { handleApiError } from "../../../components/errors/ErrorHandler"
 const LoginAPI = () => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
+        const [show, setShow] = useState<boolean>(false)
 
     const handleLogin = async (formdata: Login) => {
         
@@ -22,6 +23,9 @@ const LoginAPI = () => {
             return response
             
         } catch (error) {
+            if(error.response.status === 403){
+                setShow(true)
+            }
             handleApiError(error)
         }finally{
             setIsLoading(false)
@@ -30,7 +34,7 @@ const LoginAPI = () => {
         
     }
 
-    return { handleLogin, isLoading }
+    return { handleLogin, isLoading, show, setShow }
 }
 
 export default LoginAPI

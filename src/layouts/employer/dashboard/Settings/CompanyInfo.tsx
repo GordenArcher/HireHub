@@ -1,6 +1,9 @@
 import Button from "../../../../components/ui/Button"
+import { UseCompanyStore } from "../../../../stores/UseCompanyStore"
 
 const CompanyInfo = () => {
+    const { company } = UseCompanyStore()
+
     return (
         <div className="w-full relative h-full">
             <div className="space-y-4">
@@ -11,18 +14,36 @@ const CompanyInfo = () => {
                         <div className="w-full space-y-2">
                             <h5 className="font-medium">Upload Logo</h5>
 
-                            <div className="w-full h-60 border border-dashed border-orange-500 bg-orange-300/30 rounded-md p-3">
-                                <img alt="company profile" className="h-full flex items-center flex-col gap-4 justify-center" />
+                            <div className="w-full h-60 flex items-center justify-center">
+                                {company?.logo ? (
+                                    <img
+                                        src={`http://localhost:8000${company.logo}`}
+                                        alt="company logo"
+                                        className="h-full object-contain"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full border border-dashed border-orange-500 bg-orange-300/30 rounded-md p-3 flex items-center justify-center">
+                                        <p className="text-gray-500">No logo uploaded</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
                         <div className="w-full space-y-2">
                             <h5 className="font-medium">Banner Image</h5>
 
-                            <div className="w-full h-60 border border-dashed border-orange-500 bg-orange-300/30 rounded-md p-3">
-                                <div className="h-full flex items-center flex-col gap-4 justify-center">
-                                    <img alt="company profile" className="h-full flex items-center flex-col gap-4 justify-center" />
-                                </div>
+                            <div className="w-full h-60 rounded-md flex items-center justify-center">
+                                {company?.banner_logo ? (
+                                    <img
+                                    src={`http://localhost:8000${company.banner_logo}`}
+                                    alt="company banner"
+                                    className="h-full object-contain"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full border border-dashed border-orange-500 bg-orange-300/30 rounded-md p-3 flex items-center justify-center">
+                                        <p className="text-gray-500">No banner uploaded</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -34,15 +55,13 @@ const CompanyInfo = () => {
                     <div className="space-y-5">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="companyname">Company Name</label>
-                            <input id="companyname" type="text" className="w-full h-12 outline-none focus:border-orange-700 duration-150 ease-linear px-3 rounded-md border border-orange-500"  />
+                            <input value={company?.name} id="companyname" type="text" className="w-full h-12 outline-none focus:border-orange-700 duration-150 ease-linear px-3 rounded-md border border-orange-500"  />
                         </div>
                         
                         <div className="flex flex-col gap-2">
                             <label htmlFor="aboutcompany">About Us</label>
-                            <textarea rows={11} id="aboutcompany" placeholder="Write down about your company here. Let candidate know who we are..." className="w-full resize-none outline-none focus:border-orange-700 duration-150 ease-linear px-3 rounded-md border border-orange-500" />
+                            <textarea value={company?.about_us} rows={11} id="aboutcompany" placeholder="Write down about your company here. Let candidate know who we are..." className="w-full resize-none outline-none focus:border-orange-700 duration-150 ease-linear px-3 rounded-md border border-orange-500" />
                         </div>
-
-
                         
 
                         <div className="mt-5">

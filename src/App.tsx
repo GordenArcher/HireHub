@@ -3,13 +3,40 @@ import Loading from "./components/Loading/Loading"
 import { useAuthStore } from "./stores/useAuthStore"
 
 import MainRoutes from "./routes/mainroutes/routes"
+import { useEffect } from "react"
+import { UseCompanyStore } from "./stores/UseCompanyStore"
+import { useNavigate } from "react-router-dom"
 
 function App() {
-  const { isGettingUser, isGettingAuth} = useAuthStore()
+  const { isGettingUser, isGettingAuth, fetchAuth, fetchUser, fetchSocials, user} = useAuthStore()
+  const { fetchCompany, company } = UseCompanyStore()
 
-  console.log(isGettingUser)
+  const navigate = useNavigate()
 
-  if(isGettingAuth || isGettingUser) return <Loading />
+  useEffect(() => {
+    fetchAuth();
+    fetchUser();
+    fetchSocials();
+    
+  },[fetchAuth, fetchUser, fetchSocials]);
+
+  useEffect(() => {
+    if (user?.user_type === "EM") {
+      fetchCompany();
+    }
+  }, [user, fetchCompany]);
+
+  useEffect(() => {
+    if (company && !company.onboarded) {
+      navigate("/auth/employer/setup");
+    }
+  }, [company]);
+
+  if(isGettingUser || isGettingAuth){
+    return <Loading />
+  }
+  
+  
 
   return (
     <section className="w-full h-full relative">

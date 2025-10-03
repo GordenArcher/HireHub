@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Benefits, EducationLevels, ExperienceRanges, JobLevel, JobType, Nationalities, SalaryType, Vacancies } from "../../../../data/dashboard/Employer"
 import Button from "../../../../components/ui/Button";
 import { ArrowRight } from "lucide-react";
+import axiosClient from "../../../../utils/axiosClient";
+import { toast } from "react-toastify";
 
 const PostJob = () => {
     const [cities, setCities] = useState<string[]>([])
@@ -23,7 +25,6 @@ const PostJob = () => {
         desirable: "",
         benefits: "",
         tags: "",
-        company: "", 
         expires_at: "",
         location: { country: "", city: "" },
     });
@@ -89,30 +90,41 @@ const PostJob = () => {
             desirable: form.desirable.split('\n').filter(item => item.trim() !== ''),
             benefits: selectedBenefits,
             tags: form.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),
-            company: form.company,
             expires_at: form.expires_at,
             location: isRemote ? "Remote" : `${form.location.city}, ${form.location.country}`,
             is_remote: isRemote
         };
 
         try {
-            const response = await fetch('/api/jobs/create/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(jobData)
-            });
+            const response = await axiosClient.post('jobs/create/', jobData);
 
-            if (response.ok) {
-                const result = await response.json();
+            if (response?.data) {
+                const result = response.data;
+                toast.success(response.message)
                 console.log('Job created successfully:', result);
                
-            } else {
-                console.error('Failed to create job');
+                toast.success("Job posted successfully!");
+                setForm({
+                    title: "",
+                    role: "",
+                    type: "",
+                    level: "",
+                    education: "",
+                    experience: "",
+                    vacancy: "",
+                    salary: { min: 0, max: 0 },
+                    description: "",
+                    requirements: "",
+                    desirable: "",
+                    benefits: "",
+                    tags: "",
+                    expires_at: "",
+                    location: { country: "", city: "" },
+                });
+                setSelectedBenefits([]);
             }
         } catch (error) {
+            toast.error(error.response.data.message)
             console.error('Error creating job:', error);
         }
     };
@@ -211,7 +223,7 @@ const PostJob = () => {
                                             required
                                         >
                                             <option value="">Select...</option>
-                                            {SalaryType.map(typ => (
+                                            {JobType.map(typ => (
                                                 <option key={typ.id} value={typ.label}>{typ.label}</option>
                                             ))}
                                         </select>
@@ -266,7 +278,7 @@ const PostJob = () => {
                                         >
                                             <option value="">select...</option>
                                             {JobLevel.map((e, idx) => (
-                                                <option key={idx} value={e.id}>{e.label}</option>
+                                                <option key={idx} value={e.label}>{e.label}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -281,7 +293,7 @@ const PostJob = () => {
                                         >
                                             <option value="">select...</option>
                                             {Vacancies.map((e, idx) => (
-                                                <option key={idx} value={e.id}>{e.label}</option>
+                                                <option key={idx} value={e.label}>{e.label}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -298,18 +310,6 @@ const PostJob = () => {
                                         />
                                     </div>
 
-                                    <div className="w-full relative flex flex-col gap-2">
-                                        <span className="text-sm font-medium">Company</span>
-                                        <input 
-                                            name="company" 
-                                            value={form.company} 
-                                            onChange={handleChange} 
-                                            placeholder="Company ID or Name" 
-                                            type="text" 
-                                            className="w-full h-12 rounded outline-none px-2 border border-orange-300 focus:border-orange-400 transition duration-150 ease-in" 
-                                            required
-                                        />
-                                    </div>
                                 </div>
                             </div>
                         </div>

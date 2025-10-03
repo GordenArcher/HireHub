@@ -5,7 +5,8 @@ import AuthRight from "../../../components/ui/AuthRightUI";
 import { useCallback, useState } from "react";
 import LoginAPI from "../containers/LoginAPI";
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { getuser } from "../../../services/api";
+import { getuser, resendActivationEmail } from "../../../services/api";
+import { toast } from "react-toastify";
 
 
 const LoginForm = () => {
@@ -16,61 +17,51 @@ const LoginForm = () => {
         email: "",
         password: ""
     })
-    // const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isResending, setIsResending] = useState<boolean>(false)
 
-    const { handleLogin, isLoading } = LoginAPI()
+    const { handleLogin, isLoading, show, setShow } = LoginAPI()
 
     const Login = useCallback( async () => {
         const response = await handleLogin(formaData)
 
         if(response){
+            setAuthenticated(response?.authenticated)
+
             const res = await getuser()
             if(res){
                 setUser(res)
             }
-            setAuthenticated(response?.authenticated)
-
+            
             setTimeout(() => {
-                navigate("/")
+                location.href = "/"
             }, 2000)
         }
 
     }, [formaData, handleLogin, setAuthenticated, setUser])
 
 
-    // const loginUser = () => {
-    //     if(!formaData.email.trim() || !formaData.password.trim()) return toast.error("Email and Password are required")
+    const ResendEmail = async () => {
+        if(!formaData.email.trim()) return toast.error("Email is required")
 
-    //     setIsLoading(true)
+        setIsResending(true)
 
-    //     try {
+        try {
+            const response = await resendActivationEmail(formaData.email)
 
-    //         const users = JSON.parse(localStorage.getItem("users") || "[]");
+            if(response){
+                toast.success(response.message)
 
-    //         const foundUser = users.find(
-    //             (u: Login) => u.email === formaData.email && u.password === formaData.password
-    //         );
+                setTimeout(() => {
+                    setShow(false)
+                }, 2000)
+            }
 
-    //         if (!foundUser) {
-    //             toast.error("Invalid Credentials")
-    //             return { success: false, message: "Invalid credentials" };
-    //         }
-
-    //         const token = uuidv4();
-    //         const updatedUser = { ...foundUser, token };
-
-    //         sessionStorage.setItem("currentUser", JSON.stringify(updatedUser));
-
-    //         toast.success("Login Successfull")
-
-    //         return { success: true, token, user: updatedUser };
-            
-    //     } catch (error) {
-    //         return error
-    //     }finally{
-    //         setIsLoading(false)
-    //     }
-    // };
+        } catch (error) {
+            return error
+        }finally{
+            setIsResending(false)
+        }
+    };
 
     return (
         <div className="h-full w-full">
@@ -83,7 +74,7 @@ const LoginForm = () => {
                         <div className="space-y-2">
                             <p className="mb-6 font-black text-black">Login to your HireHub account</p>
                             <p className="text-start text-sm text-gray-600 mb-6">
-                                Don’t have an account?{" "}
+                                Don&apos;t have an account?{" "}
                                 <Link to="/auth/register" className="text-orange-500 hover:underline font-medium">
                                     Sign up
                                 </Link>
@@ -155,6 +146,14 @@ const LoginForm = () => {
                                     </div>
                                 </button>
                             </div>
+
+                            {show && 
+                                <div className="pt-2">
+                                    <button onClick={ResendEmail} disabled={isResending} title="resend email" className="p-1 cursor-pointer disabled:cursor-not-allowed disabled:text-orange-300 text-orange-600">
+                                        { isResending ? "resending..." : "Resend activation email"}
+                                    </button>
+                                </div>
+                            }
                         </div>
                     
                     </div>

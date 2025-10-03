@@ -1,6 +1,6 @@
 import { ChevronRight, MapPin, Search } from 'lucide-react'
 import HomeImage from '../../../assets/images/home.svg'
-import { HeroData, jobs, MostPopularVaca } from '../../../data/landing/landing'
+import { HeroData, MostPopularVaca } from '../../../data/landing/landing'
 import HeroCard from '../../../components/ui/HeroCard'
 import { Link } from 'react-router-dom'
 import HowItWorks from '../../../components/Howitworkd'
@@ -9,11 +9,18 @@ import Testimonial from '../../../components/Testimonial'
 import PopularCategory from '../../../components/PopularCategory'
 import TopCompanies from '../../../components/TopCompanies'
 import CTO from '../../../components/CTO'
-import type { Job } from '../../../types/landing/landingtypes'
+import { useEffect } from 'react'
+import { useJobStore } from '../../../stores/useJob'
 
 const Landing = () => {
+    const { jobs, fetchJobs } = useJobStore();
 
-    const SlicedJob: Job[] = jobs.slice(0, 9)
+
+    useEffect(() => {
+        fetchJobs();
+    }, [fetchJobs]);
+
+    const SlicedJob = jobs.slice(0, 9)
 
     return (
         <div className="max-md:p-3 relative w-full h-full">

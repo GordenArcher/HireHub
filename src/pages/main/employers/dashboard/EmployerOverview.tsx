@@ -1,11 +1,34 @@
 import { ArrowRight } from "lucide-react"
 import JobPostCard from "../../../../layouts/employer/dashboard/JobPostCard"
+import axiosClient from "../../../../utils/axiosClient";
+import { UseCompanyStore } from "../../../../stores/UseCompanyStore";
+import { useEffect, useState } from "react";
+import type { Job } from "../../../../types/Shared";
 
 interface ActiveTabProps {
   setActiveTab: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const EmployerOverview = ({ setActiveTab }: ActiveTabProps) => {
+        const [jobs, setJobs] = useState<Job[]>([]);
+        const [loading, setLoading] = useState(true);
+        const { company } = UseCompanyStore()
+
+    const fetchJobs = async () => {
+        try {
+            const response = await axiosClient.get(`/jobs/company/${company?.id}/`);
+            setJobs(response.data);
+        } catch (error: any) {
+            console.error("Error fetching jobs:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchJobs();
+    }, []);
+
     return (
         <>
             <div className="py-6">
@@ -37,7 +60,10 @@ const EmployerOverview = ({ setActiveTab }: ActiveTabProps) => {
                                 </thead>
 
                                 <tbody className="divide-y divide-gray-200">
-                                    <JobPostCard  />
+                                    {jobs.slice(0, 5).map(job => (
+                                        <JobPostCard key={job.id} job={job} />
+                                    ))}
+                                    {loading && "Loading jobs..."}
                                 </tbody>
                             </table>
                         </div>

@@ -56,17 +56,18 @@ export const OrganizationTypes: string[] = [
 ];
 
 export const JobType = [
-    { id: 1, label: "Remote" },
-    { id: 2, label: "On-site" },
-    { id: 3, label: "Hybrid" },
+    { id: 1, label: "PART-TIME", display: "Part-Time" },
+    { id: 2, label: "FULL-TIME", display: "Full-Time" },
+    { id: 3, label: "CONTRACT", display: "Contract" },
+    { id: 4, label: "INTERNSHIP", display: "Internship" },
 ];
 
+
 export const JobLevel = [
-    { id: 1, label: "Internship" },
-    { id: 2, label: "Entry Level" },
-    { id: 3, label: "Mid Level" },
-    { id: 4, label: "Senior Level" },
-    { id: 5, label: "Manager" },
+    { id: 1, label: "JUNIOR" },
+    { id: 2, label: "MID" },
+    { id: 4, label: "SENIOR" },
+    { id: 5, label: "LEAD" },
 ];
 
 export const Vacancies = [

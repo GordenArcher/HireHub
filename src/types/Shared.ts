@@ -70,3 +70,39 @@ export interface Socials {
   youtube : string | undefined
   personal_website: string | undefined;
 }
+
+export interface CompanyForm {
+  name: string | undefined
+  about: string | undefined
+  logo: File | undefined | null
+  banner: File | undefined | null
+  org_type: string
+  industry_type: string
+  team_size: string
+  year_established: string
+  company_website: string
+  company_vision: string
+  facebook: string
+  twitter: string
+  linkedin: string
+  instagram: string
+  map_location: string
+  phone: string
+  email: string | undefined
+}
+
+export interface Job {
+  id: string;
+  title: string;
+  type: string;
+  level?: string;
+  salary: {
+      min: number;
+      max: number;
+  };
+  is_expired: boolean;
+  requirements: string[];
+  desirable: string[];
+  benefits: string[];
+  tags: string[];
+}

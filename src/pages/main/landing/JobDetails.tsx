@@ -1,23 +1,39 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { GetJobTypeColor } from "../../../utils/JobColor";
 import { useBookmarkStore } from "../../../stores/useBookmarkstore";
-import { ArrowRight, Bookmark, Facebook, LinkedinIcon, LinkIcon, Map, Twitter } from "lucide-react";
+import { ArrowRight, Bookmark, Facebook, LinkedinIcon, LinkIcon, Loader, Map, Twitter } from "lucide-react";
 import { FormatSalaryRange } from "../../../utils/FormatSalary";
-import FeaturedJob from "../../../components/Featured";
-import { jobs } from "../../../data/landing/landing";
-import EmptyContainer from "../../../components/EmptyContainer";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import axiosClient from "../../../utils/axiosClient";
 
 
 const JobDetails = () => {
-
-    const location = useLocation();
-    const { job } = location.state || {};
-
-    const relatedJobs = jobs.filter(j => j.id !== job.id && j.tags.some(tag => job.tags.includes(tag)));
+    const { id } = useParams();
 
     const { isBookmarked, toggleBookmark } = useBookmarkStore()
-    const bookmarked = isBookmarked(job.id)
+    const [applying, setApplying] = useState(false);
+
+    
+    const [job, setJob] = useState<any | null>(null);
+    const [loading, setLoading] = useState(true);
+    const bookmarked = isBookmarked(id)
+
+        useEffect(() => {
+        const fetchJob = async () => {
+            try {
+                const response = await axiosClient.get(`/jobs/retrieve/${id}/`);
+                setJob(response.data);
+            } catch (err: any) {
+                console.error(err);
+                toast.error("Failed to load job details.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchJob();
+    }, [id]);
 
     const shareLink = async () => {
         if (navigator.share) {
@@ -35,6 +51,26 @@ const JobDetails = () => {
             toast.success("Link copied to clipboard!");
         }
     };
+
+    const applyForJob = async () => {
+        if (!job) return;
+
+        setApplying(true);
+        try {
+            const res = await axiosClient.post(`/apply_job/${job.id}/`, {
+                // you may include user data (e.g., resume, coverLetter) here if required
+            });
+
+            toast.success("Application submitted successfully!");
+        } catch (err: any) {
+            console.error(err);
+            toast.error(err.response?.data?.detail || "Failed to apply for job.");
+        } finally {
+            setApplying(false);
+        }
+    };
+
+    if (loading) return <p>Loading job details...</p>;
 
 
     return (
@@ -63,9 +99,20 @@ const JobDetails = () => {
                         <div className="p-2 h-full">
                             <div className="flex items-center gap-3 h-full">
                                 <div>
-                                    <div className="w-18 h-18 rounded-full bg-gradient-to-tr from-orange-600 to-orange-300 text-white text-2xl font-extrabold flex items-center justify-center">
-                                        {job.company.logo}
+                                    <div className="w-18 h-18 rounded-full overflow-hidden flex items-center justify-center">
+                                        {job.company.logo ? (
+                                            <img
+                                                src={`http://localhost:8000${job.company.logo}`}
+                                                alt={`${job.company.name} logo`}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="bg-gradient-to-tr from-orange-600 to-orange-300 text-white text-2xl font-extrabold flex items-center justify-center w-full h-full">
+                                                {job.company.name[0]}
+                                            </div>
+                                        )}
                                     </div>
+
                                 </div>
 
                                 <div className="flex items-start flex-col gap-1 justify-between">
@@ -95,10 +142,20 @@ const JobDetails = () => {
                                 </div>
 
                                 <div>
-                                    <button title="apply" className="h-10 px-8 bg-orange-500 text-white flex items-center gap-2.5 w-full cursor-pointer hover:bg-orange-600 transition duration-150 ease-initial rounded-md " >
-                                        <span>Apply</span>
+                                    <button onClick={applyForJob} disabled={applying} title="apply" className="h-10 px-8 bg-orange-500 text-white flex items-center gap-2.5 w-full cursor-pointer hover:bg-orange-600 transition duration-150 ease-initial rounded-md " >
+                                        {applying ? (
+                                            <>
+                                                <span>Applying...</span>
+                                                <Loader className="animate-spin" />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span>Apply</span>
 
-                                        <ArrowRight size={20} />
+                                                <ArrowRight size={20} />
+                                            </>
+                                        )}
+                                        
                                     </button>
                                 </div>
                             </div>
@@ -210,7 +267,7 @@ const JobDetails = () => {
                 <div className="space-y-3.5">
                     <h3 className="text-3xl max-md:text-lg">Related Jobs</h3>
 
-                    <div>
+                    {/* <div>
                         <section className="grid grid-cols-3 gap-2.5 max-md:grid-cols-1">
                             {relatedJobs.slice(0, 6).map((job) => <FeaturedJob key={job.id} job={job} />)}
                         </section>
@@ -220,7 +277,7 @@ const JobDetails = () => {
                                 <EmptyContainer text="No relative job found" />
                             </div>
                         )}
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

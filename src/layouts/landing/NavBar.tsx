@@ -14,8 +14,6 @@ const NavBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { isAuthenticated, user } = useAuthStore()
 
-    console.log(user)
-
     const NavLinks: NavLinks[] = [
         {
             id: 1,
@@ -61,6 +59,7 @@ const NavBar = () => {
                         <div className="hidden md:block">
                             <ul className="flex items-center gap-3.5 relative">
                                 {FilterNav.map((nav) => (
+                                    !isAuthenticated && nav.label == "Dashboard" ? null :
                                     <li key={nav.id} className="relative">
                                         <NavLink
                                             to={nav.link}
@@ -86,10 +85,10 @@ const NavBar = () => {
 
                         <div className="hidden md:flex relative">
                             <div className="flex items-center gap-2.5">
-                                
+{/*                                 
                                 <div className="relative">
                                     <Link to={"/post/job"} className="px-6 py-3 rounded-xl bg-orange-600 text-white border cursor-pointer hover:bg-transparent hover:text-orange-600 hover:border-orange-600 duration-75 transition ease-in">Post a Job</Link>
-                                </div>
+                                </div> */}
 
                                 {isAuthenticated ? (
                                     <div>

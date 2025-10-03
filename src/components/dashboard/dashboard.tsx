@@ -24,7 +24,7 @@ const Dashboard = () => {
     const [activeTab, setActiveTab] = useState<string>("Overview")
     const [showSide, setShowSide] = useState<boolean>(true)
     const [logingout, setlogingout] = useState<boolean>(false)
-    const { user, isAuthenticated } = useAuthStore()
+    const { user, isAuthenticated, setAuthenticated } = useAuthStore()
 
     const user_type = user?.user_type
 
@@ -99,6 +99,10 @@ const Dashboard = () => {
             const response = await logout()
             if(response){
                 toast.success(response.message)
+
+                setTimeout(() => {
+                    setAuthenticated(false)
+                }, 2000)
             }
         } catch (error) {
             console.error(error)

@@ -60,15 +60,24 @@ const FeaturedJob = ({ job }: JobCardProps) => {
 
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-15 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold">
-                            {job.company.logo}
+                        <div className="w-15 h-10 rounded-lg overflow-hidden flex items-center justify-center bg-orange-500">
+                            {job.company.logo ? (
+                                <img
+                                src={`http://localhost:8000${job.company.logo}`}
+                                alt={`${job.company.name} logo`}
+                                className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <span className="text-white font-bold">{job.company.name[0]}</span>
+                            )}
                         </div>
+
 
                         <div className='w-full'>
                             <p className="font-medium text-gray-900 line-clamp-1">{job.company.name}</p>
                             <div className="flex items-center text-gray-500 text-sm">
                                 <MapPin size={14} className="mr-1" />
-                                {job.company.location}
+                                {job.company.contact_info?.map_location}
                             </div>
                         </div>
                     </div>

@@ -3,11 +3,12 @@ import { get_auth, get_socials, getuser } from "../services/api";
 import type { Socials } from "../types/Shared";
 
 interface user {
-    id: number;
-    first_name: string;
-    username: string;
-    email: string;
+  id: number;
+  first_name: string;
+  username: string;
+  email: string;
 }
+
 interface User {
     user: user;
     full_name: string;
@@ -21,9 +22,8 @@ interface User {
     experience?: string;
     birth_date?: string | null;
     profile_image?: string | null;
-    user_type: "JS" | "EM" | "AD"
+    user_type: "JS" | "EM" | "AD";
 }
-
 
 interface AuthState {
     user: User | null;
@@ -31,17 +31,33 @@ interface AuthState {
     isAuthenticated: boolean;
     isGettingAuth: boolean;
     isGettingUser: boolean;
+
     setUser: (user: User | null) => void;
+    setSocials: (socials: Socials | null) => void;
     setAuthenticated: (value: boolean) => void;
     setIsGettingAuth: (value: boolean) => void;
     setIsGettingUser: (value: boolean) => void;
-    setSocials: (socials: | null) => void;
+
+    fetchAuth: () => Promise<void>;
+    fetchUser: () => Promise<void>;
+    fetchSocials: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>((set) => {
+export const useAuthStore = create<AuthState>((set) => ({
+    user: null,
+    socials: null,
+    isAuthenticated: false,
+    isGettingAuth: false,
+    isGettingUser: false,
 
-    (async () => {
-            set({ isGettingAuth: true });
+    setUser: (user) => set({ user }),
+    setSocials: (socials) => set({ socials }),
+    setAuthenticated: (value) => set({ isAuthenticated: value }),
+    setIsGettingAuth: (value) => set({ isGettingAuth: value }),
+    setIsGettingUser: (value) => set({ isGettingUser: value }),
+
+    fetchAuth: async () => {
+        set({ isGettingAuth: true });
         try {
             const res = await get_auth();
             set({ isAuthenticated: res?.auth ?? false });
@@ -51,9 +67,9 @@ export const useAuthStore = create<AuthState>((set) => {
         } finally {
             set({ isGettingAuth: false });
         }
-    })();
+    },
 
-    (async () => {
+    fetchUser: async () => {
         set({ isGettingUser: true });
         try {
             const res = await getuser();
@@ -64,27 +80,14 @@ export const useAuthStore = create<AuthState>((set) => {
         } finally {
             set({ isGettingUser: false });
         }
-    })();
+    },
 
-    (async () => {
+    fetchSocials: async () => {
         try {
             const res = await get_socials();
             if (res) set({ socials: res });
         } catch (err) {
             console.error("User socials failed", err);
         }
-    })();
-
-    return {
-        user: null,
-        socials: null,
-        isAuthenticated: false,
-        isGettingAuth: false,
-        isGettingUser: false,
-        setUser: (user) => set({ user }),
-        setSocials: (socials) => set({ socials }),
-        setAuthenticated: (value) => set({ isAuthenticated: value }),
-        setIsGettingAuth: (value) => set({ isGettingAuth: value }),
-        setIsGettingUser: (value) => set({ isGettingUser: value }),
-    };
-});
+    },
+}));

@@ -1,9 +1,18 @@
 import { MapPin, Search, SlidersIcon } from "lucide-react"
 import { Link } from "react-router-dom"
 import FeaturedJob from "../../../components/Featured"
-import { jobs } from "../../../data/landing/landing"
+import { useJobStore } from "../../../stores/useJob";
+import { useEffect, useState } from "react";
 
 const FindJob = () => {
+    const { filteredJobs, filterJobs } = useJobStore();
+    const [search, setSearch] = useState("");
+    const [location, setLocation] = useState("");
+
+    useEffect(() => {
+        filterJobs(search, location);
+    }, [search, location, filterJobs]);
+
     return (
         <div className="py-12 max-md:p-2 relative">
             <div className="space-y-4 w-full">
@@ -28,7 +37,7 @@ const FindJob = () => {
                                 <Search size={20} className='text-orange-500' />
 
                                 <div className='h-full w-full'>
-                                    <input type="text" className='w-full border-none h-full outline-none font-medium' placeholder='search by: Job title, position, keyword...' name="search-job" id="search_job" />
+                                    <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" className='w-full border-none h-full outline-none font-medium' placeholder='search by: Job title, position, keyword...' name="search-job" id="search_job" />
                                 </div>
                             </div>
                         </div>
@@ -41,7 +50,7 @@ const FindJob = () => {
                                     <MapPin size={20} className='text-orange-500' />
 
                                     <div className='h-full'>
-                                        <input type="text" className='border-none h-full outline-none font-medium' placeholder='Your location' name="search-location" id="search_location" />
+                                        <input value={location} onChange={(e) => setLocation(e.target.value)} type="text" className='border-none h-full outline-none font-medium' placeholder='Your location' name="search-location" id="search_location" />
                                     </div>
                                 </div>
 
@@ -53,12 +62,13 @@ const FindJob = () => {
                                         <SlidersIcon size={20} />
                                     </button>
 
-                                    <button
+                                    {/* <button
+                                        onClick={handleSearch}
                                         title="find job"
                                         className="px-4 py-2 bg-orange-500 text-white cursor-pointer rounded-lg flex items-center justify-center"
                                     >
                                         <Search size={20} />
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                         </div>
@@ -68,7 +78,13 @@ const FindJob = () => {
 
             <section className="py-7 relative">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {jobs.map((job) => <FeaturedJob key={job.id} job={job} />)}
+                    {filteredJobs.length > 0 ? (
+                        filteredJobs.map((job) => (
+                            <FeaturedJob key={job.id} job={job} />
+                        ))
+                    ) : (
+                        <p className="text-center text-gray-500 col-span-3">No jobs found.</p>
+                    )}
                 </div>
             </section>
         </div>
