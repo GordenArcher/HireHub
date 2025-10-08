@@ -1,8 +1,10 @@
 import { BadgeDollarSign, MapPin } from "lucide-react";
 import { RenderStatus } from '../../utils/jobstatus'
+import { Link } from "react-router-dom";
 
 
 const JobApplicationCard = ({ job } ) => {
+    
     return (
         <>
             <tr key={job.id} className="hover:bg-gray-50 transition duration-150 ease-in">
@@ -44,9 +46,9 @@ const JobApplicationCard = ({ job } ) => {
                 </td>
 
                 <td className="px-4 py-3">
-                    <button className="px-4 py-2 cursor-pointer rounded-md bg-orange-500 text-white font-medium hover:bg-orange-600 transition">
-                        View Details
-                    </button>
+                    <Link to={`/position/details/${job.job_id}`} className="px-4 py-2 cursor-pointer rounded-md bg-orange-500 text-white font-medium hover:bg-orange-600 transition">
+                        Details
+                    </Link>
                 </td>
             </tr>
         </>

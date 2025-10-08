@@ -28,26 +28,26 @@ const FavoriteCard = ({ bookmark }: Card) => {
                         <span>{bookmark.company?.name?.[0] ?? "C"}</span>
                     </div>
 
-                <div className="flex flex-col justify-between gap-2">
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                    <h2 className="font-medium text-gray-900">{bookmark?.title}</h2>
-                    <span className="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-700 w-fit">
-                        {bookmark?.type}
-                    </span>
-                    </div>
+                    <div className="flex flex-col justify-between gap-2">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                            <h2 className="font-medium text-gray-900">{bookmark?.title}</h2>
+                            <span className="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-700 w-fit">
+                                {bookmark?.type}
+                            </span>
+                        </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-gray-600 text-sm">
-                    <span className="flex items-center gap-1">
-                        <MapPin size={16} />
-                        {bookmark?.company?.location ?? "Unknown"}
-                    </span>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-gray-600 text-sm">
+                            <span className="flex items-center gap-1">
+                                <MapPin size={16} />
+                                {bookmark?.company?.location ?? "Unknown"}
+                            </span>
 
-                    <span className="flex items-center gap-1">
-                        <BadgeDollarSign size={16} />
-                        {FormatSalaryRange(bookmark?.salary?.min, bookmark?.salary?.max)}
-                    </span>
+                            <span className="flex items-center gap-1">
+                                <BadgeDollarSign size={16} />
+                                {FormatSalaryRange(bookmark?.salary?.min, bookmark?.salary?.max)}
+                            </span>
+                        </div>
                     </div>
-                </div>
                 </div>
 
                 <div className="flex gap-2 sm:flex-row flex-col sm:items-center">

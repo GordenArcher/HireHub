@@ -93,7 +93,7 @@ const NavBar = () => {
                                 {isAuthenticated ? (
                                     <div>
                                         {user?.profile_image ? (
-                                            <img className="w-12 h-12 rounded-full" src={user?.profile_image} alt={user?.user?.username} />
+                                            <img className="w-12 h-12 rounded-full" src={`http://localhost:8000${user?.profile_image}`} alt={user?.user?.username} />
                                         ) : (
                                             <div className="w-12 h-12 rounded-full flex items-center justify-center bg-orange-600">
                                                 <span className="capitalize text-xl text-white font-bold">{user?.user?.username?.[0]}</span>
@@ -111,7 +111,7 @@ const NavBar = () => {
                         <div className="md:hidden flex items-center gap-2">
                             <div>
                                 {user?.profile_image ? (
-                                    <img src={user?.profile_image} alt={user?.user?.username} />
+                                    <img src={`http://localhost:8000${user?.profile_image}`} alt={user?.user?.username} />
                                 ) : (
                                     <div className="w-10 h-10 rounded-full bg-orange-600"></div>
                                 )}

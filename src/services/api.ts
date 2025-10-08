@@ -42,3 +42,10 @@ export const resendActivationEmail = async (email: string) => {
     const response = await axiosClient.post(`/resend_activation_email/${email}/`)
     return response.data
 }
+
+
+export const jobs_applied = async () => {
+    const response = await axiosClient.get("/jobs/applied/")
+    return response.data
+}
+

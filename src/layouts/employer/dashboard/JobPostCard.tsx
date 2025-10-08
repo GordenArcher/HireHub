@@ -9,7 +9,7 @@ interface Job {
     type: string;
     level?: string;
     is_expired: boolean;
-    applicants_count?: number;
+    applicant_count?: number;
     expires_at?: string;
 }
 
@@ -48,7 +48,7 @@ const JobPostCard = ({ job }: Props) => {
             <td className="px-4 py-3">
                 <div className="flex items-center gap-1 text-sm">
                     <User2Icon size={16} />
-                    <span className="font-black">{job?.applicants_count || 0}</span>
+                    <span className="font-black">{job?.applicant_count || 0}</span>
                     <span>Applicants</span>
                 </div>
             </td>

@@ -1,10 +1,11 @@
-import { Upload, FileText, PlusCircle, Save, Loader } from "lucide-react";
+import { Upload, Save, Loader } from "lucide-react";
 import Button from "../../../components/ui/Button";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { useRef, useState } from "react";
 import axiosClient from "../../../utils/axiosClient";
 import { getuser } from "../../../services/api";
 import { toast } from "react-toastify";
+import ResumeUpload from "../../../components/dashboard/ResumeUpload";
 
 const Personal = () => {
     const { user, socials, setUser } = useAuthStore()
@@ -66,6 +67,7 @@ const Personal = () => {
             setIsSaving(false)
         }
     };
+
 
     return (
         <div className="w-full h-full relative p-6">
@@ -140,33 +142,7 @@ const Personal = () => {
                 </div>
             </div>
 
-            <div className="mt-10 space-y-6">
-                <h2 className="text-xl font-semibold text-gray-800">Your CV / Resume</h2>
-
-                <div className="grid grid-cols-2 max-md:grid-cols-1 gap-4">
-                    <div className="w-full flex items-center justify-between gap-2 border border-orange-400 rounded-lg p-4 shadow-sm hover:shadow-md transition">
-                        <div className="flex items-center gap-2">
-                            <FileText className="text-blue-600" size={30} />
-
-                            <div>
-                                <p className="text-sm font-medium">Professional Resume</p>
-                                <span className="text-xs text-gray-500">3.5 MB</span>
-                            </div>
-                        </div>
-                        
-                        
-                        <div className="flex items-center gap-3 text-sm">
-                            
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col items-center justify-center border-2 border-dashed border-orange-300 rounded-lg p-6 w-52 cursor-pointer hover:bg-gray-50 transition">
-                        <PlusCircle className="text-gray-500" size={24} />
-                        <p className="text-sm text-gray-600">Add CV / Resume</p>
-                        <p className="text-xs text-gray-400">Only PDF</p>
-                    </div>
-                </div>
-            </div>
+            <ResumeUpload />
         </div>
     );
 };

@@ -1,14 +1,25 @@
+import { useEffect } from "react"
 import JobApplicationCard from "../../../../components/dashboard/JobApplicationCard"
-import { JobApplications } from "../../../../data/dashboard/candidateDashboard"
+import { useJobStore } from "../../../../stores/useJob"
 
 const JobsApplied = () => {
-    const total_jobs = JobApplications.length
+
+        const { fetchUserJobs, appliesJobs, isGettingUserJobs} = useJobStore()
+        
+        useEffect(() => {
+            fetchUserJobs()
+        }, [fetchUserJobs])
+    
+        if(isGettingUserJobs){
+            return "Loading applied jobs"
+        }
+    
 
     return (
         <div className="w-full relative h-full">
             <div className="space-y-5">
                 <div className="p-3">
-                    <h3 className="text-lg font-black text-orange-400">Applied Jobs {" "} <span className="text-slate-600">({total_jobs})</span> </h3>
+                    <h3 className="text-lg font-black text-orange-400">You've applied to <span className="text-slate-600">({appliesJobs?.length})</span> {" "} jobs</h3>
                 </div>
 
                 <div className="w-full h-full">
@@ -25,7 +36,7 @@ const JobsApplied = () => {
                             </thead>
 
                             <tbody className="divide-y divide-gray-200">
-                                {JobApplications.map((job) => {
+                                {appliesJobs.map((job) => {
                                     return (
                                         <JobApplicationCard key={job.id} job={job} />
                                     )

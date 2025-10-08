@@ -79,12 +79,12 @@ const Dashboard = () => {
             label : "My Jobs",
             type: "EM"
         },
-        {
-            id : 6,
-            icon: Bookmark,
-            label : "Saved Candidates",
-            type: "EM"
-        },
+        // {
+        //     id : 6,
+        //     icon: Bookmark,
+        //     label : "Saved Candidates",
+        //     type: "EM"
+        // },
         {
             id : 7,
             icon: Settings,

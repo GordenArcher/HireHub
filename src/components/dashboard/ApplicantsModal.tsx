@@ -49,6 +49,7 @@ const ApplicantsModal = ({ jobId, onClose }: ApplicantsModalProps) => {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg relative">
                 <button
+                    title="close"
                     onClick={onClose}
                     className="absolute top-3 right-3 text-gray-600 hover:text-gray-900"
                 >

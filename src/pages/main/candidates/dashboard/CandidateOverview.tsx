@@ -1,13 +1,24 @@
-import React from 'react'
 import JobApplicationCard from '../../../../components/dashboard/JobApplicationCard'
 import { ArrowRight } from 'lucide-react';
-import { JobApplications } from '../../../../data/dashboard/candidateDashboard';
+import { useJobStore } from '../../../../stores/useJob';
+import { useEffect } from 'react';
 
 interface ActiveTabProps {
   setActiveTab: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CandidateOverview = ({ setActiveTab }: ActiveTabProps) => {
+
+    const { fetchUserJobs, appliesJobs, isGettingUserJobs} = useJobStore()
+    
+    useEffect(() => {
+        fetchUserJobs()
+    }, [fetchUserJobs])
+
+    if(isGettingUserJobs){
+        return "Loading applied jobs"
+    }
+
 
     return (
         <div>
@@ -39,15 +50,13 @@ const CandidateOverview = ({ setActiveTab }: ActiveTabProps) => {
                                 </thead>
 
                                 <tbody className="divide-y divide-gray-200">
-                                    {JobApplications.slice(0, 10).map((job) => (
-                                        <JobApplicationCard key={job.id} job={job} />
+                                    {appliesJobs.slice(0, 10).map((job) => (
+                                        <JobApplicationCard key={job.id} job={job}/>
                                     ))}
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
-x
                 </section>
         </div>
     )

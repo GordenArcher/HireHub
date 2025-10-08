@@ -68,7 +68,6 @@ const Overview = ({ setActiveTab }: ActiveTabProps) => {
                             <Link to={"/auth/login"} className='text-orange-500 hover:underline'>here</Link>
                         </span>
                     </div>
-                    
                 </div>
             </div>
         )
