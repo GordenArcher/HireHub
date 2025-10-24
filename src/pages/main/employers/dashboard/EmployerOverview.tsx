@@ -64,6 +64,8 @@ const EmployerOverview = ({ setActiveTab }: ActiveTabProps) => {
                                         <JobPostCard key={job.id} job={job} />
                                     ))}
                                     {loading && "Loading jobs..."}
+
+                                    {jobs.length <= 0 && "No JOBS POSTED"}
                                 </tbody>
                             </table>
                         </div>

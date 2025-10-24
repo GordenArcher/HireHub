@@ -4,6 +4,16 @@ export interface Salary {
   max: number;
 }
 
+interface Document {
+    id: string;
+    business_registration: string | null;
+    tax_document: string | null;
+    identification_document: string | null;
+    additional_document: string | null;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface Job {
     id: string;
     title: string;
@@ -43,6 +53,9 @@ export interface Company {
     foundingInfo: FoundingInfo;
     socials: SocialLinks;
     contactInfo: ContactInfo;
+    documents: Document | null;
+    onboarded: boolean;
+    is_accepted: "review" | "accepted" | "rejected"
 }
 
 export interface SocialLinks {
@@ -89,12 +102,16 @@ export interface CompanyForm {
   map_location: string
   phone: string
   email: string | undefined
+  businessRegistration: File | null;
+  taxDocument: File | null;
+  identificationDocument: File | null;
+  additionalDocument: File | null;
 }
 
 export interface Job {
   id: string;
   title: string;
-  type: string;
+  type: "PART-TIME" | "FULL-TIME" | "CONTRACT" | "INTERNSHIP";
   level?: string;
   salary: {
       min: number;

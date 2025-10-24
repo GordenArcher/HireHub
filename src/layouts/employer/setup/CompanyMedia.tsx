@@ -100,7 +100,7 @@ const CompanyMedia = ({ setActiveTab, setForm, form }: Props) => {
                     Previous
                 </Button>
 
-                <Button title="save & next" handleClick={() => setActiveTab("contact")}>
+                <Button title="save & next" handleClick={() => setActiveTab("documents")}>
                     {
                         <>
                             <span>Save & Next</span>

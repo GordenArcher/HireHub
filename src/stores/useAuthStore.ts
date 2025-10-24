@@ -7,6 +7,7 @@ interface user {
   first_name: string;
   username: string;
   email: string;
+  is_staff?: boolean
 }
 
 interface User {

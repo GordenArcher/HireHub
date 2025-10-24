@@ -41,6 +41,15 @@ const NavBar = () => {
         return nav.type === user?.user_type;
     });
 
+    if (user?.user?.is_staff) {
+        FilterNav.push({
+            id: 99,
+            label: "Admin",
+            link: "/admin/dashboard",
+            type: null,
+        });
+    }
+
 
 
     const toggleMenu = () => {

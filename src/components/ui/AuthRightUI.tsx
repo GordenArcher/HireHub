@@ -4,7 +4,7 @@ import { BriefcaseBusiness, Building2Icon } from "lucide-react";
 
 interface Data {
     id: number,
-    number: number,
+    // number: number,
     label: string,
     icon: React.ReactNode
 }
@@ -14,19 +14,19 @@ const AuthRight = () => {
     const Data: Data[] = [
         {
             id: 1,
-            number: 175324,
+            // number: 175324,
             label: "Live Job",
             icon: <BriefcaseBusiness size={20} />
         },
         {
             id: 2,
-            number: 97354,
+            // number: 97354,
             label: "Companies",
             icon: <Building2Icon size={20} />
         },
         {
             id: 3,
-            number: 7532,
+            // number: 7532,
             label: "New Jobs",
             icon: <BriefcaseBusiness size={20} />
         },
@@ -54,7 +54,7 @@ const AuthRight = () => {
                                                     {r.icon}
                                                 </div>
 
-                                                <p className="text-sm font-black">{r.number}</p>
+                                                {/* <p className="text-sm font-black">{r.number}</p> */}
                                                 <span className="text-sm">{r.label}</span>
                                             </div>
                                         </div>

@@ -16,8 +16,8 @@ const AuthRoutes = () => {
                 <Routes>
                     {isAuthenticated ? (
                         <>
-                            <Route path="employer/setup" element={ <SetUp />} />
-                            <Route path="employer/setup/complete" element={ <SetupComplete />} />
+                            <Route path="company/setup" element={ <SetUp />} />
+                            <Route path="company/setup/complete" element={ <SetupComplete />} />
                         </>
                     ) : (
                         <>

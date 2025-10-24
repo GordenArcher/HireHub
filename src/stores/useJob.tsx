@@ -60,7 +60,7 @@ export const useJobStore = create<JobState>((set, get) => ({
             try {
             const res = await jobs_applied();
             if (res) {
-                const formattedJobs = res.map((app: any) => ({
+                const formattedJobs = res.map((app) => ({
                     id: app.id,
                     job_id: app.job.id,
                     title: app.job.title,

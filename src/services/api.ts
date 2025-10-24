@@ -19,8 +19,6 @@ export const getAllJobs = async () => {
     return response.data
 }
 
-
-
 export const get_company = async () => {
     const response = await axiosClient.get("/company/")
     return response.data

@@ -1,4 +1,4 @@
-import { AtSign, Globe, User2 } from "lucide-react"
+import { AtSign, File, Globe, User2 } from "lucide-react"
 import Logo from "../../../components/ui/Logo"
 import { useState } from "react"
 import CompanyInfo from "../../../layouts/employer/setup/CompanyInfo"
@@ -13,6 +13,7 @@ import type { CompanyForm } from "../../../types/Shared"
 import { calculateProgress } from "../../../utils/calculateProgress"
 import { useNavigate } from "react-router-dom"
 import { UseCompanyStore } from "../../../stores/UseCompanyStore"
+import Documents from "../../../layouts/employer/setup/Documents"
 
 
 
@@ -44,7 +45,11 @@ const SetUp = () => {
         instagram: "",
         map_location: "",
         phone: "",
-        email: user?.user?.email
+        email: user?.user?.email,
+        businessRegistration: null,
+        taxDocument: null,
+        identificationDocument: null,
+        additionalDocument: null
     })
 
     const handleSubmit = async () => {
@@ -62,11 +67,11 @@ const SetUp = () => {
 
         Object.entries(form).forEach(([key, value]) => {
             if (value !== null && value !== undefined) {
-                if (value instanceof File) {
-                    formData.append(key, value);
-                } else {
-                    formData.append(key, value as string);
-                }
+                if (typeof value === 'object' && 'name' in value && 'size' in value && 'type' in value) {
+                formData.append(key, value as Blob);
+            } else {
+                formData.append(key, String(value));
+            }
             }
         });
 
@@ -90,7 +95,7 @@ const SetUp = () => {
                     } else {
                         setCompany({ onboarded: true } as any);
                     }
-                navigate("auth/employer/setup/complete", { state: { progress }})
+                navigate("auth/company/setup/complete", { state: { progress }})
             }
         } catch (error: any) {
             const errorResult = error?.response?.data;
@@ -123,6 +128,12 @@ const SetUp = () => {
         },
         {
             id: 4,
+            icon: File,
+            label: "Documents",
+            link: 'documents'
+        },
+        {
+            id: 5,
             icon: AtSign,
             label: "Contact",
             link: 'contact'
@@ -173,6 +184,7 @@ const SetUp = () => {
                         {activeTab === "company-info" && <CompanyInfo setActiveTab={setActiveTab} setForm={setForm} form={form} /> }
                         {activeTab === "founding-info" && <FoundingInfo setActiveTab={setActiveTab} setForm={setForm} form={form} /> }
                         {activeTab === "company-media" && <CompanyMedia setActiveTab={setActiveTab} setForm={setForm} form={form} /> }
+                        {activeTab === "documents" && <Documents setActiveTab={setActiveTab} setForm={setForm} form={form} /> }
                         {activeTab === "contact" && <Contact setActiveTab={setActiveTab} setForm={setForm} form={form} IsSubmitting={IsSubmitting} handleSubmit={handleSubmit}/> }
                     </section>
                 </div>

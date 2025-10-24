@@ -5,13 +5,13 @@ import { useAuthStore } from "./stores/useAuthStore"
 import MainRoutes from "./routes/mainroutes/routes"
 import { useEffect } from "react"
 import { UseCompanyStore } from "./stores/UseCompanyStore"
-import { useNavigate } from "react-router-dom"
+// import { useNavigate } from "react-router-dom"
 
 function App() {
   const { isGettingUser, isGettingAuth, fetchAuth, fetchUser, fetchSocials, user} = useAuthStore()
-  const { fetchCompany, company } = UseCompanyStore()
+  const { fetchCompany } = UseCompanyStore()
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   useEffect(() => {
     fetchAuth();
@@ -26,11 +26,11 @@ function App() {
     }
   }, [user, fetchCompany]);
 
-  useEffect(() => {
-    if (company && !company.onboarded) {
-      navigate("/auth/employer/setup");
-    }
-  }, [company]);
+  // useEffect(() => {
+  //   if (company && !company.onboarded) {
+  //     navigate("/auth/employer/setup");
+  //   }
+  // }, [company]);
 
   if(isGettingUser || isGettingAuth){
     return <Loading />

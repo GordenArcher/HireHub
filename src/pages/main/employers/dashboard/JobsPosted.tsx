@@ -65,6 +65,8 @@ const JobsPosted = () => {
                                 {jobs.map(job => (
                                     <JobPostCard key={job.id} job={job} />
                                 ))}
+
+                                {jobs.length <= 0 && "No JOBS POSTED"}
                             </tbody>
                         </table>
                     </div>
